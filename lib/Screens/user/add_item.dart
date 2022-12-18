@@ -1,46 +1,37 @@
 import 'package:flutter/material.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 
+import '../../Data/data.dart';
 import '../../Models/data_model.dart';
-import 'package:order_taking_system/Data/data.dart';
 
-class Recipes extends StatefulWidget {
-  const Recipes({Key? key}) : super(key: key);
+class AddItems extends StatefulWidget {
+  const AddItems({Key? key}) : super(key: key);
 
   @override
-  State<Recipes> createState() => _RecipesState();
+  State<AddItems> createState() => _AddItemsState();
 }
 
-class _RecipesState extends State<Recipes> {
+class _AddItemsState extends State<AddItems> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Recipes"),
+        title: const Text('Menu'),
       ),
       body: ListView.builder(
           itemCount: dummyOrders.length,
           itemBuilder: (context, index) {
-            return OrderTile(
+            return MenuTile(
               order: dummyOrders[index],
             );
           }),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          _openPopup(context);
-          // Add your onPressed code here!
-        },
-        label: const Text('Add Recipe'),
-        icon: const Icon(Icons.add),
-        backgroundColor: Colors.pink,
-      ),
     );
   }
 }
 
-class OrderTile extends StatelessWidget {
-  const OrderTile({required this.order, Key? key}) : super(key: key);
+class MenuTile extends StatelessWidget {
+  const MenuTile({required this.order, Key? key}) : super(key: key);
   final Order order;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -214,12 +205,7 @@ class OrderTile extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.all(5.0),
                       child: ElevatedButton(
-                          onPressed: () {}, child: const Text('Delete')),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: ElevatedButton(
-                          onPressed: () {}, child: const Text('Edit')),
+                          onPressed: () {}, child: const Text('Add to Menu')),
                     ),
                   ],
                 )
@@ -231,67 +217,3 @@ class OrderTile extends StatelessWidget {
     );
   }
 }
-
-_openPopup(context) {
-  Alert(
-      context: context,
-      title: "Add Recipe",
-      content: Column(
-        children: const <Widget>[
-          TextField(
-            decoration: InputDecoration(
-              icon: Icon(Icons.food_bank),
-              labelText: 'Name',
-            ),
-          ),
-          TextField(
-            obscureText: true,
-            decoration: InputDecoration(
-              icon: Icon(Icons.currency_bitcoin),
-              labelText: 'Price',
-            ),
-          ),
-          TextField(
-            obscureText: true,
-            decoration: InputDecoration(
-              icon: Icon(Icons.ac_unit_outlined),
-              labelText: 'Quantity',
-            ),
-          ),
-          TextField(
-            obscureText: true,
-            decoration: InputDecoration(
-              icon: Icon(Icons.image),
-              labelText: 'Image',
-            ),
-          ),
-          TextField(
-            obscureText: true,
-            decoration: InputDecoration(
-              icon: Icon(Icons.description),
-              labelText: 'Description',
-            ),
-          ),
-        ],
-      ),
-      buttons: [
-        DialogButton(
-          onPressed: () => Navigator.pop(context),
-          child: const Text(
-            "Add",
-            style: TextStyle(color: Colors.white, fontSize: 20),
-          ),
-        )
-      ]).show();
-}
-
-// _getFromGallery() async {
-//   PickedFile? pickedFile = await ImagePicker().getImage(
-//     source: ImageSource.gallery,
-//     maxWidth: 1800,
-//     maxHeight: 1800,
-//   );
-//   if (pickedFile != null) {
-//     File imageFile = File(pickedFile.path);
-//   }
-// }
