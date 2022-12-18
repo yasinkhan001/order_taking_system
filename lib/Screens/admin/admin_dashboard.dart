@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:order_taking_system/Screens/admin/generate_token.dart';
-import 'package:order_taking_system/Screens/admin/order_details.dart';
+import 'package:order_taking_system/Screens/admin/order_list.dart';
 import 'package:order_taking_system/Screens/admin/recipes.dart';
 
 class AdminDashboard extends StatefulWidget {
@@ -32,10 +32,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
                 child: ListTile(
               title: const Text("Orders"),
               onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const OrderDetails()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const OrderList()));
               },
             )),
             Card(
