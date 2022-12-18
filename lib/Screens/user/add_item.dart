@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:order_taking_system/Screens/user/show_item.dart';
 
 import '../../Data/data.dart';
 import '../../Models/data_model.dart';
@@ -24,6 +25,16 @@ class _AddItemsState extends State<AddItems> {
               order: dummyOrders[index],
             );
           }),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const ShowItems()));
+          // Add your onPressed code here!
+        },
+        label: const Text('Proceed to Order'),
+        icon: const Icon(Icons.arrow_forward_ios_sharp),
+        backgroundColor: Colors.pink,
+      ),
     );
   }
 }

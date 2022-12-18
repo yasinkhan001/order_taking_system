@@ -65,7 +65,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
         title: const Text('Tables'),
       ),
       body: ListView.builder(
-          itemCount: 20,
+          itemCount: 8,
           itemBuilder: (context, index) {
             return Card(
                 child: ListTile(
