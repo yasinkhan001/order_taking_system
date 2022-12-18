@@ -201,9 +201,19 @@ class OrderTile extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(5.0),
                       child: ElevatedButton(
                           onPressed: () {}, child: const Text('Accept Order')),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: ElevatedButton(
+                          onPressed: () {}, child: const Text('Pending')),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: ElevatedButton(
+                          onPressed: () {}, child: const Text('Complete')),
                     )
                   ],
                 )
