@@ -149,8 +149,8 @@ class OrderTile extends StatelessWidget {
                             horizontal: 24.0, vertical: 25),
                         child: Text(
                           order.products!
-                              .map((e) => e.price)
-                              .reduce((a, b) => a! + b!)
+                              .map((e) => e.price! * e.quantity!)
+                              .reduce((a, b) => a + b)
                               .toString(),
                           style: Theme.of(context).textTheme.headline5,
                         ),
