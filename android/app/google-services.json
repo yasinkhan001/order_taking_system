@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "750895725913",
+    "project_id": "primeval-door-270207",
+    "storage_bucket": "primeval-door-270207.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:750895725913:android:0fbc24eedc4e3b8576a048",
+        "android_client_info": {
+          "package_name": "com.example.order_taking_system"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "750895725913-orh41omtegrmaa0mu90ol89tn91ts537.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCuYBgamHdjV6t6X6Qqm8VGrgAGagpO3PY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "750895725913-orh41omtegrmaa0mu90ol89tn91ts537.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
