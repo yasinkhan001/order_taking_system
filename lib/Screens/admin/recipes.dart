@@ -122,8 +122,8 @@ class _RecipesState extends State<Recipes> {
                         "img": image,
                         "descriptions": desc,
                         "category": cat,
-                        "createdAt": createdAt,
-                        "updatedAt": updatedAt,
+                        "created_at": createdAt,
+                        "updated_at": updatedAt,
                       });
 
                       _nameController.text = '';
