@@ -36,10 +36,10 @@ class _RecipesState extends State<Recipes> {
         builder: (BuildContext ctx) {
           return Padding(
             padding: EdgeInsets.only(
-                top: 20,
-                left: 20,
-                right: 20,
-                bottom: MediaQuery.of(ctx).viewInsets.bottom + 20),
+                top: 15,
+                left: 15,
+                right: 15,
+                bottom: MediaQuery.of(ctx).viewInsets.bottom + 15),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -159,7 +159,7 @@ class _RecipesState extends State<Recipes> {
                       children: [
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Text(documentSnapshot['id']),
+                          child: Text(documentSnapshot['id'].toString()),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -175,15 +175,15 @@ class _RecipesState extends State<Recipes> {
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Text(documentSnapshot['price']),
+                          child: Text(documentSnapshot['quantity'].toString()),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Text(documentSnapshot['sold']),
+                          child: Text(documentSnapshot['sold'].toString()),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Text(documentSnapshot['left']),
+                          child: Text(documentSnapshot['left'].toString()),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
