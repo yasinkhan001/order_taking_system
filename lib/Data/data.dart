@@ -15,7 +15,7 @@ List<Order> dummyOrders = [
           descriptions: "Corner Table"),
       products: [
         Product(
-          id: 1,
+          id: "'1'",
           name: 'Medium Pizza',
           left: 100,
           img:
@@ -29,7 +29,7 @@ List<Order> dummyOrders = [
           updatedAt: DateTime.now(),
         ),
         Product(
-          id: 1,
+          id: '"1"',
           name: 'Chicken Karahi',
           left: 20,
           img:
@@ -57,7 +57,7 @@ List<Order> dummyOrders = [
           descriptions: "Corner Table 2"),
       products: [
         Product(
-          id: 1,
+          id: "1",
           name: 'Medium Pizza 2',
           img:
               'https://th.bing.com/th/id/OIP.doQkirpWK5IzqLIzNBobEQHaFN?pid=ImgDet&rs=1',
@@ -71,7 +71,7 @@ List<Order> dummyOrders = [
           updatedAt: DateTime.now(),
         ),
         Product(
-          id: 1,
+          id: '1',
           name: 'Chicken Karahi2',
           img:
               'https://th.bing.com/th/id/OIP.nttdhvmMz-wdyfrnDwE-7gHaFj?pid=ImgDet&rs=1',

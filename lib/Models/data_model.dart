@@ -142,7 +142,7 @@ class Product {
     this.updatedAt,
   });
 
-  final int? id;
+  final String? id;
   final String? name;
   final String? img;
   final int? left;
@@ -155,7 +155,7 @@ class Product {
   final DateTime? updatedAt;
 
   Product copyWith({
-    int? id,
+    String? id,
     String? name,
     String? img,
     int? left,

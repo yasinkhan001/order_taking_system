@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:order_taking_system/Screens/user/show_item.dart';
 
@@ -12,19 +13,107 @@ class AddItems extends StatefulWidget {
 }
 
 class _AddItemsState extends State<AddItems> {
+  final CollectionReference _products =
+      FirebaseFirestore.instance.collection('products');
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Menu'),
       ),
-      body: ListView.builder(
-          itemCount: dummyOrders.length,
-          itemBuilder: (context, index) {
-            return MenuTile(
-              order: dummyOrders[index],
+      body: StreamBuilder(
+        stream: _products.snapshots(),
+        builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
+          if (streamSnapshot.hasData) {
+            return ListView.builder(
+              itemCount: streamSnapshot.data!.docs.length,
+              itemBuilder: (context, index) {
+                final DocumentSnapshot documentSnapshot =
+                    streamSnapshot.data!.docs[index];
+                return Card(
+                  margin: EdgeInsets.only(top: 22.0, left: 5, right: 5),
+                  child: Column(
+                    children: [
+                      // Padding(
+                      //   padding: const EdgeInsets.all(8.0),
+                      //   child: Text(documentSnapshot['id'].toString()),
+                      // ),
+                      Row(children: [
+                        Image.network(
+                          documentSnapshot['img'],
+                          // fit: BoxFit.cover,
+                          fit: BoxFit.fill,
+                          width: 350,
+                          height: 200,
+                        ),
+                      ]),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            documentSnapshot['name'],
+                            style: TextStyle(fontSize: 26),
+                            textAlign: TextAlign.left,
+                          ),
+                          Text(
+                            "Price: Rs " + documentSnapshot['price'].toString(),
+                            maxLines: 3,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(fontSize: 20),
+                          ),
+                        ],
+                      ),
+                      // Padding(
+                      //   padding: const EdgeInsets.all(8.0),
+                      //   child:
+                      //       Text("Category: " + documentSnapshot['category']),
+                      // ),
+                      // Padding(
+                      //   padding: const EdgeInsets.all(8.0),
+                      //   child: Text(documentSnapshot['quantity'].toString()),
+                      // ),
+                      // Padding(
+                      //   padding: const EdgeInsets.all(8.0),
+                      //   child: Text(documentSnapshot['sold'].toString()),
+                      // ),
+                      // Padding(
+                      //   padding: const EdgeInsets.all(8.0),
+                      //   child: Text(documentSnapshot['left'].toString()),
+                      // ),
+
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              "Description: " +
+                                  documentSnapshot['descriptions'],
+                              softWrap: false,
+                              maxLines: 3,
+                              overflow: TextOverflow.ellipsis, // new
+                            ),
+                          ),
+                        ],
+                      ),
+
+                      // Padding(
+                      //   padding: const EdgeInsets.all(8.0),
+                      //   child:
+                      //       Text(documentSnapshot['created_at'].toString()),
+                      // ),
+                      // Padding(
+                      //   padding: const EdgeInsets.all(8.0),
+                      //   child:
+                      //       Text(documentSnapshot['updated_at'].toString()),
+                      // ),
+                    ],
+                  ),
+                );
+              },
             );
-          }),
+          }
+          return Text("No widget to build");
+        },
+      ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
           Navigator.push(context,
@@ -34,196 +123,6 @@ class _AddItemsState extends State<AddItems> {
         label: const Text('Proceed to Order'),
         icon: const Icon(Icons.arrow_forward_ios_sharp),
         backgroundColor: Colors.pink,
-      ),
-    );
-  }
-}
-
-class MenuTile extends StatelessWidget {
-  const MenuTile({required this.order, Key? key}) : super(key: key);
-  final Order order;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(5.0),
-      child: Card(
-        elevation: 3,
-        color: Colors.black12,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: LimitedBox(
-            maxHeight: 390,
-            // width: MediaQuery.of(context).size.width,
-
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SingleChildScrollView(
-                  child: Wrap(
-                    children: [
-                      ColoredBox(
-                        color: Colors.amber,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Padding(
-                              padding: EdgeInsets.all(4.0),
-                              child: Text('Image'),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(4.0),
-                              child: Text(
-                                'Product',
-                                style: Theme.of(context).textTheme.labelLarge,
-                              ),
-                            ),
-                            const Spacer(),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 8.0),
-                              child: Text(
-                                'Price',
-                                style: Theme.of(context).textTheme.labelLarge,
-                              ),
-                            ),
-                            const Spacer(),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 24.0),
-                              child: Text(
-                                'Quantity',
-                                style: Theme.of(context).textTheme.labelLarge,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      for (Product product in order.products!)
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(4.0),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                child: Image.network(
-                                  product.img!,
-                                  width: 45,
-                                  height: 45,
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(4.0),
-                              child: Text(
-                                product.name!,
-                                style: Theme.of(context).textTheme.labelLarge,
-                              ),
-                            ),
-                            const Spacer(),
-                            Padding(
-                              padding: const EdgeInsets.all(4.0),
-                              child: Text(
-                                '${product.price} PKR',
-                                style: Theme.of(context).textTheme.labelLarge,
-                              ),
-                            ),
-                            const Spacer(),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 24.0),
-                              child: Text(
-                                product.quantity!.toString(),
-                                style: Theme.of(context).textTheme.labelLarge,
-                              ),
-                            ),
-                          ],
-                        ),
-                    ],
-                  ),
-                ),
-                ColoredBox(
-                  color: Colors.white.withOpacity(0.1),
-                  child: Row(
-                    children: [
-                      // Padding(
-                      //   padding: const EdgeInsets.symmetric(
-                      //       horizontal: 4.0, vertical: 25),
-                      //   child: Text(
-                      //     'Total:',
-                      //     style: Theme.of(context).textTheme.headline5,
-                      //   ),
-                      // ),
-                      // const Spacer(),
-                      // Padding(
-                      //   padding: const EdgeInsets.symmetric(
-                      //       horizontal: 24.0, vertical: 25),
-                      //   child: Text(
-                      //     order.products!
-                      //         .map((e) => e.price! * e.quantity!)
-                      //         .reduce((a, b) => a + b)
-                      //         .toString(),
-                      //     style: Theme.of(context).textTheme.headline5,
-                      //   ),
-                      // ),
-                    ],
-                  ),
-                ),
-                Row(
-                  children: [
-                    // Padding(
-                    //   padding: const EdgeInsets.all(4.0),
-                    //   child: Text(
-                    //     'Status:',
-                    //     style: Theme.of(context)
-                    //         .textTheme
-                    //         .labelMedium!
-                    //         .copyWith(fontWeight: FontWeight.w700),
-                    //   ),
-                    // ),
-                    // Padding(
-                    //   padding: const EdgeInsets.all(4.0),
-                    //   child: Text(
-                    //     order.status!,
-                    //     style: Theme.of(context).textTheme.labelMedium,
-                    //   ),
-                    // ),
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: Text(
-                    'Descriptions:',
-                    style: Theme.of(context)
-                        .textTheme
-                        .labelMedium!
-                        .copyWith(fontWeight: FontWeight.w700),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: Text(
-                    order.descriptions!,
-                    style: Theme.of(context).textTheme.bodySmall,
-                  ),
-                ),
-                const Spacer(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: ElevatedButton(
-                          onPressed: () {}, child: const Text('Add to Menu')),
-                    ),
-                  ],
-                )
-              ],
-            ),
-          ),
-        ),
       ),
     );
   }

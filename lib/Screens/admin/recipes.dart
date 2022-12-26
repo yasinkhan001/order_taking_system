@@ -1,4 +1,8 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:order_taking_system/Screens/admin/add_recipes.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import '../../Models/data_model.dart';
 import 'package:order_taking_system/Data/data.dart';
@@ -13,129 +17,20 @@ class Recipes extends StatefulWidget {
 }
 
 class _RecipesState extends State<Recipes> {
-  final TextEditingController _docId = TextEditingController();
-
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _priceController = TextEditingController();
-  final TextEditingController _descriptions = TextEditingController();
-  final TextEditingController _image = TextEditingController();
-  final TextEditingController _quantity = TextEditingController();
-  final TextEditingController _sold = TextEditingController();
-  final TextEditingController _left = TextEditingController();
-  final TextEditingController _category = TextEditingController();
-  final TextEditingController _timestampcreated = TextEditingController();
-  final TextEditingController _timestampupdated = TextEditingController();
-
   final CollectionReference _products =
       FirebaseFirestore.instance.collection('products');
 
+  final ImagePicker _picker = ImagePicker();
+
   Future<void> _create([DocumentSnapshot? documentSnapshot]) async {
-    await showModalBottomSheet(
-        isScrollControlled: true,
-        context: context,
-        builder: (BuildContext ctx) {
-          return Padding(
-            padding: EdgeInsets.only(
-                top: 15,
-                left: 15,
-                right: 15,
-                bottom: MediaQuery.of(ctx).viewInsets.bottom + 15),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                TextField(
-                  controller: _docId,
-                  decoration: const InputDecoration(labelText: 'Id'),
-                ),
-                TextField(
-                  controller: _nameController,
-                  decoration: const InputDecoration(labelText: 'Name'),
-                ),
-                TextField(
-                  controller: _timestampcreated,
-                  decoration: const InputDecoration(labelText: 'created at'),
-                ),
-                TextField(
-                  controller: _timestampupdated,
-                  decoration: const InputDecoration(labelText: 'updated at'),
-                ),
-                TextField(
-                  controller: _sold,
-                  decoration: const InputDecoration(labelText: 'Sold'),
-                ),
-                TextField(
-                  controller: _left,
-                  decoration: const InputDecoration(labelText: 'Left'),
-                ),
-                TextField(
-                  controller: _quantity,
-                  decoration: const InputDecoration(labelText: 'Quantity'),
-                ),
-                TextField(
-                  controller: _image,
-                  decoration: const InputDecoration(labelText: 'Image'),
-                ),
-                TextField(
-                  controller: _descriptions,
-                  decoration: const InputDecoration(labelText: 'Descriptions'),
-                ),
-                TextField(
-                  controller: _category,
-                  decoration: const InputDecoration(labelText: 'Category'),
-                ),
-                TextField(
-                  keyboardType:
-                      const TextInputType.numberWithOptions(decimal: true),
-                  controller: _priceController,
-                  decoration: const InputDecoration(
-                    labelText: 'Price',
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                ElevatedButton(
-                  child: const Text('Create'),
-                  onPressed: () async {
-                    final String id = _docId.text;
-                    final String name = _nameController.text;
-                    final double? price =
-                        double.tryParse(_priceController.text);
-                    final String quantity = _quantity.text;
-                    final String sold = _sold.text;
-                    final String left = _left.text;
-                    final String image = _image.text;
-                    final String desc = _descriptions.text;
-                    final String cat = _category.text;
-                    final String createdAt = _timestampcreated.text;
-                    final String updatedAt = _timestampupdated.text;
-
-                    if (price != null) {
-                      await _products.add({
-                        "id": id,
-                        "name": name,
-                        "price": price,
-                        "quantity": quantity,
-                        "sold": sold,
-                        "left": left,
-                        "img": image,
-                        "descriptions": desc,
-                        "category": cat,
-                        "created_at": createdAt,
-                        "updated_at": updatedAt,
-                      });
-
-                      _nameController.text = '';
-                      _priceController.text = '';
-                      Navigator.of(context).pop();
-                    }
-                  },
-                )
-              ],
-            ),
-          );
-        });
+    // await showModalBottomSheet(
+    //     isScrollControlled: true,
+    //     context: context,
+    //     builder: (BuildContext ctx) {
+    //       return StatefulBuilder(
+    //         builder:(ctx)=> ,
+    //       );
+    //     });
   }
 
   @override
@@ -157,10 +52,10 @@ class _RecipesState extends State<Recipes> {
                     margin: EdgeInsets.all(10.0),
                     child: Column(
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(documentSnapshot['id'].toString()),
-                        ),
+                        // Padding(
+                        //   padding: const EdgeInsets.all(8.0),
+                        //   child: Text(documentSnapshot['id'].toString()),
+                        // ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(documentSnapshot['name']),
@@ -187,20 +82,26 @@ class _RecipesState extends State<Recipes> {
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Text(documentSnapshot['img']),
+                          child: Image.network(
+                            documentSnapshot['img'],
+                            width: 50,
+                            height: 50,
+                          ),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(documentSnapshot['descriptions']),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(documentSnapshot['created_at']),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(documentSnapshot['updated_at']),
-                        ),
+                        // Padding(
+                        //   padding: const EdgeInsets.all(8.0),
+                        //   child:
+                        //       Text(documentSnapshot['created_at'].toString()),
+                        // ),
+                        // Padding(
+                        //   padding: const EdgeInsets.all(8.0),
+                        //   child:
+                        //       Text(documentSnapshot['updated_at'].toString()),
+                        // ),
                       ],
                     ),
                   );
@@ -211,7 +112,8 @@ class _RecipesState extends State<Recipes> {
           },
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () => _create(),
+          onPressed: () => Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const AddRecipes())),
           child: const Icon(Icons.add),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat);
