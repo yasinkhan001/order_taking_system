@@ -172,16 +172,13 @@ class _AdminDashboardState extends State<AdminDashboard> {
                               child: Text('${tables[index].descriptions}'),
                             )));
                           },
+
                           leading: CircleAvatar(
                             radius: 35,
                             backgroundColor: Colors.pink,
                           ),
                           trailing: Icon(Icons.remove_circle),
-                          : () async {
-                            SharedPreferences prefs =
-                                await SharedPreferences.getInstance();
-                            prefs.remove('tables');
-                          },
+
                           title: Text('${tables[index].descriptions}'),
                           subtitle: Text('${tables[index].tableChairsCount}'),
 
