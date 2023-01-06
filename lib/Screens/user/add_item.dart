@@ -32,7 +32,11 @@ class _AddItemsState extends State<AddItems> {
               App.instance.dialog(context,
                   child: CartWidget(
                     products: cartProducts,
-                    onChange: (a) {},
+                    onChange: (a) {
+                      setState(() {
+                        cartProducts = a;
+                      });
+                    },
                   ));
             },
             child: Padding(

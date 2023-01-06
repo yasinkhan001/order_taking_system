@@ -6,24 +6,24 @@ import 'package:order_taking_system/Data/data.dart';
 
 import '../../Models/data_model.dart' as or;
 
-class OrderList extends StatefulWidget {
-  const OrderList({Key? key}) : super(key: key);
+class InprogressOrders extends StatefulWidget {
+  const InprogressOrders({Key? key}) : super(key: key);
 
   @override
-  State<OrderList> createState() => _OrderListState();
+  State<InprogressOrders> createState() => _InprogressOrders();
 }
 
-class _OrderListState extends State<OrderList> {
+class _InprogressOrders extends State<InprogressOrders> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Order List'),
+        title: const Text('In Progress Orders'),
       ),
       body: StreamBuilder(
           stream: FirebaseFirestore.instance
               .collection('orders')
-              // .where('status', isEqualTo: 'Pending')
+              .where('status', isEqualTo: 'Pending')
               .orderBy('created_at', descending: true)
               .snapshots(),
           builder: (context, AsyncSnapshot<QuerySnapshot> snap) {

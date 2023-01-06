@@ -1,5 +1,9 @@
+import 'dart:convert';
+
+import 'package:cloud_firestore/cloud_firestore.dart' as fs;
 import 'package:flutter/material.dart';
 import 'package:order_taking_system/Models/data_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CartWidget extends StatefulWidget {
   const CartWidget({required this.onChange, required this.products, Key? key})
@@ -30,6 +34,7 @@ class _CartWidgetState extends State<CartWidget> {
   Widget build(BuildContext context) {
     cartProducts = widget.products;
     data();
+
     return Container(
       height: 400,
       width: MediaQuery.of(context).size.width * 0.9,
@@ -90,36 +95,34 @@ class _CartWidgetState extends State<CartWidget> {
                               IconButton(
                                   onPressed: () {
                                     setState(() {
-                                      List<Product> p = cartProducts
+                                      if (cartProducts
                                           .where((e) =>
                                               e.id == widget.products[index].id)
-                                          .toList();
+                                          .isNotEmpty) {
+                                        Product prod = cartProducts
+                                            .firstWhere((e) =>
+                                                e.id ==
+                                                widget.products[index].id)
+                                            .copyWith(
+                                                quantity: cartProducts
+                                                        .firstWhere((e) =>
+                                                            e.id ==
+                                                            widget
+                                                                .products[index]
+                                                                .id)
+                                                        .quantity! -
+                                                    1);
 
-                                      Product prod = p
-                                          .firstWhere((e) =>
-                                              e.id == widget.products[index].id)
-                                          .copyWith(
-                                              quantity: p
-                                                      .firstWhere((e) =>
-                                                          e.id ==
-                                                          widget.products[index]
-                                                              .id)
-                                                      .quantity! -
-                                                  1);
-                                      if (cartProducts[index].quantity == 0) {
-                                        cartProducts.removeWhere((e) =>
-                                            prod.id ==
-                                            cartProducts
-                                                .firstWhere((e) =>
-                                                    e.id ==
-                                                    cartProducts[index].id)
-                                                .id);
+                                        if (cartProducts[index].quantity! > 0) {
+                                          cartProducts.removeAt(index);
+                                          cartProducts.insert(index, prod);
+                                        }
+                                        if (cartProducts[index].quantity! < 1) {
+                                          cartProducts.removeAt(index);
+                                        }
+                                        data();
                                       }
-                                      // prod.copyWith(quantity: prod.quantity! + 1);
-                                      cartProducts
-                                          .removeWhere((e) => e.id == prod.id);
-                                      cartProducts.insert(index, prod);
-                                      data();
+                                      widget.onChange(cartProducts);
                                     });
                                   },
                                   icon: const Icon(
@@ -145,12 +148,11 @@ class _CartWidgetState extends State<CartWidget> {
                                                               .id)
                                                       .quantity! +
                                                   1);
-                                      // prod.copyWith(quantity: prod.quantity! + 1);
                                       cartProducts
                                           .removeWhere((e) => e.id == prod.id);
                                       cartProducts.insert(index, prod);
-                                      // cartProducts.add(prod);
                                       data();
+                                      widget.onChange(cartProducts);
                                     });
                                   },
                                   icon: const Icon(
@@ -164,14 +166,57 @@ class _CartWidgetState extends State<CartWidget> {
             ),
             Row(
               children: [
-                Text(
+                const Text(
                   'Total:',
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 Text(
                   total.toString(),
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
                 ),
+                const Spacer(),
+                ElevatedButton(
+                    onPressed: () async {
+                      SharedPreferences pref =
+                          await SharedPreferences.getInstance();
+                      String? tbl = pref.getString('table');
+                      Order order = Order(
+                        orderTable: OrderTable.fromJson(tbl!),
+                        orderPrice: total,
+                        descriptions: '',
+                        products: cartProducts,
+                        createdAt: DateTime.now(),
+                        updatedAt: DateTime.now(),
+                      );
+
+                      await fs.FirebaseFirestore.instance
+                          .collection('orders')
+                          .add(order.toMap())
+                          .then((value) async {
+                        await fs.FirebaseFirestore.instance
+                            .collection('orders')
+                            .doc(value.id)
+                            .update({'id': value.id});
+                      });
+
+                      ///Upload table
+                      // await fs.FirebaseFirestore.instance
+                      //     .collection('tables')
+                      //     .add(OrderTable(
+                      //             id: '',
+                      //             descriptions: 'lkhkhkh',
+                      //             tableChairsCount: 6,
+                      //             status: 'Pending')
+                      //         .toMap())
+                      //     .then((value) async {
+                      //   await fs.FirebaseFirestore.instance
+                      //       .collection('tables')
+                      //       .doc(value.id)
+                      //       .update({'id': value.id});
+                      // });
+                    },
+                    child: const Text('Submit Order'))
               ],
             )
           ],
