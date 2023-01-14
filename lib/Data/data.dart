@@ -1,7 +1,7 @@
 import 'package:order_taking_system/Models/data_model.dart';
 
-List<Order> dummyOrders = [
-  Order(
+List<UserOrder> dummyOrders = [
+  UserOrder(
       id: "1",
       orderPrice: 1200,
       status: 'Pending',
@@ -43,7 +43,7 @@ List<Order> dummyOrders = [
           updatedAt: DateTime.now(),
         ),
       ]),
-  Order(
+  UserOrder(
       id: "2",
       orderPrice: 1200,
       status: 'Pending',

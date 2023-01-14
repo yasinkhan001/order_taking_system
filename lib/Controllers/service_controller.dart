@@ -21,12 +21,13 @@ class ServiceController {
       file = File(path);
 
 // Upload file and metadata to the path 'images/mountains.jpg'
-      final uploadTask =
-          storageRef.child("Recipes/$name.$extension").putFile(file.absolute);
+      final uploadTask = await storageRef
+          .child("Tables/$name.$extension")
+          .putFile(file.absolute);
 
 // Listen for state changes, errors, and completion of the upload.
-      uploadTask.snapshotEvents.listen((TaskSnapshot taskSnapshot) {});
-      url = await storageRef.getDownloadURL();
+//       uploadTask.snapshotEvents.listen((TaskSnapshot taskSnapshot) {});
+      url = await uploadTask.ref.getDownloadURL();
     }
 
     return url;
@@ -81,5 +82,12 @@ class ServiceController {
       // App.instance.snackBar(context, text: 'Error ', bgColor: Colors.red);
       // return null;
     });
+  }
+
+  Future<void> orderStatusChange(status, orderId) async {
+    await FirebaseFirestore.instance
+        .collection('orders')
+        .doc(orderId)
+        .update({'status': status});
   }
 }

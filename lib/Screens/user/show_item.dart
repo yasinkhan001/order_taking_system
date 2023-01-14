@@ -14,7 +14,7 @@ class _ShowItemsState extends State<ShowItems> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Selected Items"),
+        title: const Text("Selected Items"),
       ),
       body: ListView.builder(
           itemCount: dummyOrders.length,
@@ -77,7 +77,7 @@ class _ShowItemsState extends State<ShowItems> {
 
 class ShowItemsTile extends StatelessWidget {
   const ShowItemsTile({required this.order, Key? key}) : super(key: key);
-  final Order order;
+  final UserOrder order;
 
   @override
   Widget build(BuildContext context) {

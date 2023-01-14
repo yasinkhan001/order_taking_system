@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:order_taking_system/Controllers/service_controller.dart';
 import 'package:order_taking_system/Data/data.dart';
 
 import '../../Models/data_model.dart' as or;
@@ -23,15 +24,16 @@ class _InprogressOrders extends State<InprogressOrders> {
       body: StreamBuilder(
           stream: FirebaseFirestore.instance
               .collection('orders')
-              .where('status', isEqualTo: 'Pending')
-              .orderBy('created_at', descending: true)
+              .where('status', isEqualTo: 'Process')
+              // .orderBy('created_at', descending: true)
               .snapshots(),
           builder: (context, AsyncSnapshot<QuerySnapshot> snap) {
             if (snap.hasData) {
               var bb = snap.data!.docs;
-              List<or.Order> orders = bb
-                  .map((a) => or.Order.fromJson(jsonEncode(a.data())))
+              List<or.UserOrder> orders = bb
+                  .map((a) => or.UserOrder.fromJson(jsonEncode(a.data())))
                   .toList();
+              orders.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
               return ListView.builder(
                   itemCount: orders.length,
                   itemBuilder: (context, index) {
@@ -250,21 +252,12 @@ class _InprogressOrders extends State<InprogressOrders> {
                               Padding(
                                 padding: const EdgeInsets.all(5.0),
                                 child: ElevatedButton(
-                                    onPressed: () {},
-                                    child: const Text('Accept Order')),
+                                    onPressed: () {
+                                      ServiceController().orderStatusChange(
+                                          'Completed', orders[index].id);
+                                    },
+                                    child: const Text('Complete order')),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.all(5.0),
-                                child: ElevatedButton(
-                                    onPressed: () {},
-                                    child: const Text('Pending')),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(5.0),
-                                child: ElevatedButton(
-                                    onPressed: () {},
-                                    child: const Text('Complete')),
-                              )
                             ],
                           )
                         ],

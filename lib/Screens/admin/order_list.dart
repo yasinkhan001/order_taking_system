@@ -29,8 +29,8 @@ class _OrderListState extends State<OrderList> {
           builder: (context, AsyncSnapshot<QuerySnapshot> snap) {
             if (snap.hasData) {
               var bb = snap.data!.docs;
-              List<or.Order> orders = bb
-                  .map((a) => or.Order.fromJson(jsonEncode(a.data())))
+              List<or.UserOrder> orders = bb
+                  .map((a) => or.UserOrder.fromJson(jsonEncode(a.data())))
                   .toList();
               return ListView.builder(
                   itemCount: orders.length,

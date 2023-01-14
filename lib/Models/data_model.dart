@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-class Order {
-  Order({
+class UserOrder {
+  UserOrder({
     this.id,
     this.orderTable,
     this.orderPrice,
@@ -21,7 +21,7 @@ class Order {
   final DateTime? createdAt;
   final DateTime? updatedAt;
 
-  Order copyWith({
+  UserOrder copyWith({
     String? id,
     OrderTable? orderTable,
     double? orderPrice,
@@ -31,7 +31,7 @@ class Order {
     DateTime? createdAt,
     DateTime? updatedAt,
   }) =>
-      Order(
+      UserOrder(
         id: id ?? this.id,
         orderTable: orderTable ?? this.orderTable,
         orderPrice: orderPrice ?? this.orderPrice,
@@ -42,11 +42,11 @@ class Order {
         updatedAt: updatedAt ?? this.updatedAt,
       );
 
-  factory Order.fromJson(String str) => Order.fromMap(json.decode(str));
+  factory UserOrder.fromJson(String str) => UserOrder.fromMap(json.decode(str));
 
   String toJson() => json.encode(toMap());
 
-  factory Order.fromMap(Map<String, dynamic> json) => Order(
+  factory UserOrder.fromMap(Map<String, dynamic> json) => UserOrder(
         id: json["id"],
         orderTable: json["orderTable"] == null
             ? null
@@ -85,24 +85,32 @@ class OrderTable {
   OrderTable({
     this.id,
     this.descriptions,
+    this.img,
+    this.gender,
     this.tableChairsCount,
     this.status,
   });
 
   final String? id;
   final String? descriptions;
+  final String? img;
+  final String? gender;
   final int? tableChairsCount;
   final String? status;
 
   OrderTable copyWith({
     String? id,
     String? descriptions,
+    String? img,
+    String? gender,
     int? tableChairsCount,
     String? status,
   }) =>
       OrderTable(
         id: id ?? this.id,
         descriptions: descriptions ?? this.descriptions,
+        img: img ?? this.img,
+        gender: gender ?? this.gender,
         tableChairsCount: tableChairsCount ?? this.tableChairsCount,
         status: status ?? this.status,
       );
@@ -115,6 +123,8 @@ class OrderTable {
   factory OrderTable.fromMap(Map<String, dynamic> json) => OrderTable(
         id: json["id"],
         descriptions: json["descriptions"],
+        img: json["img"],
+        gender: json["gender"],
         tableChairsCount: json["tableChairsCount"],
         status: json["status"],
       );
@@ -122,6 +132,8 @@ class OrderTable {
   Map<String, dynamic> toMap() => {
         "id": id,
         "descriptions": descriptions,
+        "img": img,
+        "gender": gender,
         "tableChairsCount": tableChairsCount,
         "status": status,
       };

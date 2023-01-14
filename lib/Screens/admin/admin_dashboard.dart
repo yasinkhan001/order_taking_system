@@ -27,7 +27,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
   @override
   void initState() {
     super.initState();
-    _loadCounter();
+    // _loadCounter();
     // OrderTable orderTable = OrderTable.fromJson(_chairCount);
   }
 
@@ -110,7 +110,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const CompleteOders()));
+                            builder: (context) => const CompleteOrders()));
                   },
                 )),
                 Card(
@@ -141,7 +141,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
               },
               icon: const Icon(Icons.arrow_back_ios),
             ),
-            title: const Text('Tables'),
+            title: const Text('Waiter'),
           ),
           body: StreamBuilder(
               stream:
@@ -165,7 +165,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
 
                       return Container(
                         child: ListTile(
-                          onTap: () {
+                          onTap: () async {
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                 content: Container(
                               color: Colors.teal,
@@ -176,8 +176,15 @@ class _AdminDashboardState extends State<AdminDashboard> {
                           leading: CircleAvatar(
                             radius: 35,
                             backgroundColor: Colors.pink,
+                            child: Image.network(tables[index].img ??
+                                'https://cdn2.iconfinder.com/data/icons/circle-icons-1/64/profle-512.png'),
                           ),
-                          trailing: Icon(Icons.remove_circle),
+                          trailing: IconButton(
+                            onPressed: () {
+                              appDialog(context, tables[index].id);
+                            },
+                            icon: Icon(Icons.remove_circle),
+                          ),
 
                           title: Text('${tables[index].descriptions}'),
                           subtitle: Text('${tables[index].tableChairsCount}'),
@@ -211,5 +218,29 @@ class _AdminDashboardState extends State<AdminDashboard> {
                 }
               })),
     );
+  }
+
+  appDialog(BuildContext context, id) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(title: Text("Are you sure to delete?"), actions: [
+            TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text("Cancel")),
+            TextButton(
+                onPressed: () {
+                  delete(id);
+                  Navigator.pop(context);
+                },
+                child: Text("Delete")),
+          ]);
+        });
+  }
+
+  delete(id) async {
+    await FirebaseFirestore.instance.collection('tables').doc(id).delete();
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:order_taking_system/Screens/admin/admin_dashboard.dart';
+import 'package:order_taking_system/Screens/admin/generate_token.dart';
 import 'package:order_taking_system/Screens/user/add_item.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -11,6 +12,22 @@ class InitialScreen extends StatefulWidget {
 }
 
 class _InitialScreenState extends State<InitialScreen> {
+  @override
+  initState() {
+    super.initState();
+    _init(context);
+  }
+
+  _init(BuildContext context) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (prefs.containsKey('table')) {
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => ItemsListUserSide()),
+          (route) => false);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,16 +41,17 @@ class _InitialScreenState extends State<InitialScreen> {
           Center(
               child: MaterialButton(
                   onPressed: () async {
-                    SharedPreferences prefs =
-                        await SharedPreferences.getInstance();
-                    prefs.remove('tables');
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const GenerateToken()));
                   },
                   child: Container(
-                      padding: EdgeInsets.all(10),
-                      color: Colors.red,
+                      padding: const EdgeInsets.all(10),
+                      color: Colors.pink,
                       child: const Center(
                           child: Text(
-                        '  Delete Table  ',
+                        '  Add Table  ',
                         style: TextStyle(color: Colors.white),
                       ))))),
           Center(
@@ -58,7 +76,7 @@ class _InitialScreenState extends State<InitialScreen> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const AddItems()));
+                            builder: (context) => const ItemsListUserSide()));
                   },
                   child: Container(
                       padding: EdgeInsets.all(10),

@@ -2,18 +2,16 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:order_taking_system/Data/data.dart';
-
 import '../../Models/data_model.dart' as or;
 
-class CompleteOders extends StatefulWidget {
-  const CompleteOders({Key? key}) : super(key: key);
+class CompleteOrders extends StatefulWidget {
+  const CompleteOrders({Key? key}) : super(key: key);
 
   @override
-  State<CompleteOders> createState() => _CompleteOders();
+  State<CompleteOrders> createState() => _CompleteOrders();
 }
 
-class _CompleteOders extends State<CompleteOders> {
+class _CompleteOrders extends State<CompleteOrders> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,15 +21,17 @@ class _CompleteOders extends State<CompleteOders> {
       body: StreamBuilder(
           stream: FirebaseFirestore.instance
               .collection('orders')
-              .where('status', isEqualTo: 'Pending')
-              .orderBy('created_at', descending: true)
+              .where('status', isEqualTo: 'Completed')
+              // .orderBy('created_at', descending: true)
               .snapshots(),
           builder: (context, AsyncSnapshot<QuerySnapshot> snap) {
             if (snap.hasData) {
               var bb = snap.data!.docs;
-              List<or.Order> orders = bb
-                  .map((a) => or.Order.fromJson(jsonEncode(a.data())))
+              List<or.UserOrder> orders = bb
+                  .map((a) => or.UserOrder.fromJson(jsonEncode(a.data())))
                   .toList();
+              orders.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
+
               return ListView.builder(
                   itemCount: orders.length,
                   itemBuilder: (context, index) {
@@ -244,29 +244,29 @@ class _CompleteOders extends State<CompleteOders> {
                           const SizedBox(
                             height: 30,
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(5.0),
-                                child: ElevatedButton(
-                                    onPressed: () {},
-                                    child: const Text('Accept Order')),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(5.0),
-                                child: ElevatedButton(
-                                    onPressed: () {},
-                                    child: const Text('Pending')),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(5.0),
-                                child: ElevatedButton(
-                                    onPressed: () {},
-                                    child: const Text('Complete')),
-                              )
-                            ],
-                          )
+                          // Row(
+                          //   mainAxisAlignment: MainAxisAlignment.end,
+                          //   children: [
+                          //     Padding(
+                          //       padding: const EdgeInsets.all(5.0),
+                          //       child: ElevatedButton(
+                          //           onPressed: () {},
+                          //           child: const Text('Accept Order')),
+                          //     ),
+                          //     Padding(
+                          //       padding: const EdgeInsets.all(5.0),
+                          //       child: ElevatedButton(
+                          //           onPressed: () {},
+                          //           child: const Text('Pending')),
+                          //     ),
+                          //     Padding(
+                          //       padding: const EdgeInsets.all(5.0),
+                          //       child: ElevatedButton(
+                          //           onPressed: () {},
+                          //           child: const Text('Complete')),
+                          //     )
+                          //   ],
+                          // )
                         ],
                       ),
                     );

@@ -1,8 +1,13 @@
+import 'dart:convert';
+import 'dart:io';
+import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:order_taking_system/Screens/user/add_item.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:order_taking_system/Models/data_model.dart';
 import 'package:order_taking_system/Controllers/service_controller.dart';
@@ -20,6 +25,7 @@ class _GenerateTokenState extends State<GenerateToken> {
   // String? _chairCount;
   final TextEditingController chairCount = TextEditingController();
   final TextEditingController tableDesc = TextEditingController();
+  XFile? img;
   // final TextEditingController tableStatus = TextEditingController();
 
   String chair = '';
@@ -31,6 +37,13 @@ class _GenerateTokenState extends State<GenerateToken> {
     'Completed',
   ]; // Option 2
   String? _selectedStatus;
+
+  List<String> _gender = [
+    'Male',
+    'Female',
+    'Other',
+  ]; // Option 2
+  String? _selectedGender;
   // final chair = TextEditingController();
 
   @override
@@ -43,6 +56,35 @@ class _GenerateTokenState extends State<GenerateToken> {
             padding: const EdgeInsets.all(15),
             child: Column(
               children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const Text('Pick Image'),
+                      IconButton(
+                        onPressed: () async {
+                          ImagePicker imagePicker = ImagePicker();
+                          img = (await imagePicker.pickImage(
+                              source: ImageSource.gallery))!;
+                          // print(img!.path);
+                          // mem = await img.readAsBytes();
+                          setState(() {});
+                        },
+                        icon: const Icon(Icons.camera),
+                        // controller: _image,
+                        // decoration: const InputDecoration(labelText: 'Image'),
+                      ),
+                      img?.path != null
+                          ? Image.file(
+                              File(img!.path),
+                              height: 50,
+                              width: 50,
+                            )
+                          : Container(),
+                    ],
+                  ),
+                ),
                 Padding(
                   padding: const EdgeInsets.all(15),
                   child: TextField(
@@ -63,8 +105,8 @@ class _GenerateTokenState extends State<GenerateToken> {
                     // obscureText: true,
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
-                      labelText: 'Table Name',
-                      hintText: 'Enter Name of table',
+                      labelText: 'Waiter Name',
+                      hintText: 'Enter Waiter Name',
                     ),
                   ),
                 ),
@@ -86,11 +128,37 @@ class _GenerateTokenState extends State<GenerateToken> {
 
                     items: _status.map((item) {
                       return DropdownMenuItem<String>(
-                          child: new Text(item), value: item);
+                          child: Text(item), value: item);
                     }).toList(),
                     onChanged: (newValue) {
                       setState(() {
                         _selectedStatus = newValue.toString();
+                      });
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(15),
+                  // child: TextField(
+                  //   controller: tableStatus,
+                  //   // obscureText: true,
+                  //   decoration: const InputDecoration(
+                  //     border: OutlineInputBorder(),
+                  //     labelText: 'Status',
+                  //     hintText: 'Status of table',
+                  //   ),
+                  // ),
+                  child: DropdownButton(
+                    hint: Text('Select Gender'), // Not necessary for Option 1
+                    value: _selectedGender,
+
+                    items: _gender.map((item) {
+                      return DropdownMenuItem<String>(
+                          child: Text(item), value: item);
+                    }).toList(),
+                    onChanged: (newValue) {
+                      setState(() {
+                        _selectedGender = newValue.toString();
                       });
                     },
                   ),
@@ -103,10 +171,11 @@ class _GenerateTokenState extends State<GenerateToken> {
                   child: const Text('Add Table'),
                   onPressed: () async {
                     await saveText();
-                    Navigator.push(
+                    Navigator.pushAndRemoveUntil(
                         context,
-                        new MaterialPageRoute(
-                            builder: (context) => new AdminDashboard()));
+                        MaterialPageRoute(
+                            builder: (context) => AdminDashboard()),
+                        (route) => false);
                   },
                 ),
                 // ElevatedButton(
@@ -140,16 +209,31 @@ class _GenerateTokenState extends State<GenerateToken> {
     OrderTable myTable = OrderTable(
         id: '',
         descriptions: desc,
+        gender: _selectedGender,
         tableChairsCount: int.parse(chairCount.text),
         status: _status);
-    FirebaseFirestore.instance
-        .collection('tables')
-        .add(myTable.toMap())
-        .then((value) {
+    await ServiceController()
+        .uploadPhoto(
+            path: img?.path,
+            name: '${Random().nextInt(500000)}',
+            extension: img?.path.split('.').last)
+        .then((imgUrl) async {
       FirebaseFirestore.instance
           .collection('tables')
-          .doc(value.id)
-          .update({'id': value.id});
+          .add(myTable.copyWith(img: imgUrl).toMap())
+          .then((value) async {
+        FirebaseFirestore.instance
+            .collection('tables')
+            .doc(value.id)
+            .update({'id': value.id});
+        DocumentSnapshot<Map<String, dynamic>> ym = await FirebaseFirestore
+            .instance
+            .collection('tables')
+            .doc(value.id)
+            .get();
+        // OrderTable.fromJson(ym)
+        prefs.setString('table', jsonEncode(ym.data()));
+      });
     });
 
     // Order order = Order(
@@ -159,7 +243,6 @@ class _GenerateTokenState extends State<GenerateToken> {
     //       tableChairsCount: 1,
     //       status: 'Pending'),
     // ).toJson();
-    prefs.setString('table', myTable.toJson());
     //Here we'll save our text
   }
 

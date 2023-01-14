@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:order_taking_system/Controllers/service_controller.dart';
 import 'package:order_taking_system/Data/data.dart';
 
 import '../../Models/data_model.dart' as or;
@@ -23,17 +24,18 @@ class _PendingOrders extends State<PendingOrders> {
       body: StreamBuilder(
           stream: FirebaseFirestore.instance
               .collection('orders')
+              // .orderBy('created_at', descending: true)
               .where('status', isEqualTo: 'Pending')
-              .orderBy('created_at', descending: true)
               .snapshots(),
           builder: (context, AsyncSnapshot<QuerySnapshot> snap) {
             if (snap.hasData) {
               var bb = snap.data!.docs;
-              List<or.Order> orders = bb
-                  .map((a) => or.Order.fromJson(jsonEncode(a.data())))
+              List<or.UserOrder> orders = bb
+                  .map((a) => or.UserOrder.fromJson(jsonEncode(a.data())))
                   .toList();
+              orders.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
               return ListView.builder(
-                  itemCount: orders.length,
+                  itemCount: snap.data!.docs.length,
                   itemBuilder: (context, index) {
                     return Card(
                       color: Colors.blueGrey,
@@ -250,30 +252,29 @@ class _PendingOrders extends State<PendingOrders> {
                               Padding(
                                 padding: const EdgeInsets.all(5.0),
                                 child: ElevatedButton(
-                                    onPressed: () {},
-                                    child: const Text('Accept Order')),
+                                    onPressed: () {
+                                      ServiceController().orderStatusChange(
+                                          'Process', orders[index].id);
+                                    },
+                                    child: const Text('Accept')),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.all(5.0),
-                                child: ElevatedButton(
-                                    onPressed: () {},
-                                    child: const Text('Pending')),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(5.0),
-                                child: ElevatedButton(
-                                    onPressed: () {},
-                                    child: const Text('Complete')),
-                              )
                             ],
                           )
                         ],
                       ),
                     );
                   });
-            } else {
+            } else if (!snap.hasData) {
               return const Center(
                 child: CircularProgressIndicator(),
+              );
+            } else if (snap.hasError) {
+              return Center(
+                child: Text(snap.error.toString()),
+              );
+            } else {
+              return const Center(
+                child: Text('Unknown Problem'),
               );
             }
           }),

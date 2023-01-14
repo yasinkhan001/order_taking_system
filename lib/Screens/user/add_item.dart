@@ -3,20 +3,22 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:order_taking_system/Contants/widgets.dart';
+import 'package:order_taking_system/Screens/common/initial_screen.dart';
 import 'package:order_taking_system/Screens/user/cart/cart_widget.dart';
 import 'package:order_taking_system/Screens/user/show_item.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../Data/data.dart';
 import '../../Models/data_model.dart';
 
-class AddItems extends StatefulWidget {
-  const AddItems({Key? key}) : super(key: key);
+class ItemsListUserSide extends StatefulWidget {
+  const ItemsListUserSide({Key? key}) : super(key: key);
 
   @override
-  State<AddItems> createState() => _AddItemsState();
+  State<ItemsListUserSide> createState() => _ItemsListUserSideState();
 }
 
-class _AddItemsState extends State<AddItems> {
+class _ItemsListUserSideState extends State<ItemsListUserSide> {
   final CollectionReference _products =
       FirebaseFirestore.instance.collection('products');
 
@@ -27,6 +29,27 @@ class _AddItemsState extends State<AddItems> {
       appBar: AppBar(
         title: const Text('Menu'),
         actions: [
+          InkWell(
+            onTap: () async {
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              prefs.remove('table');
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => InitialScreen()),
+                  (route) => false);
+            },
+            child: const Padding(
+              padding: EdgeInsets.only(right: 20.0),
+              child: SizedBox(
+                width: 35,
+                height: 35,
+                child: Icon(
+                  Icons.delete,
+                  color: Colors.red,
+                ),
+              ),
+            ),
+          ),
           InkWell(
             onTap: () {
               App.instance.dialog(context,
@@ -169,16 +192,16 @@ class _AddItemsState extends State<AddItems> {
           return const Text("No widget to build");
         },
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const ShowItems()));
-          // Add your onPressed code here!
-        },
-        label: const Text('Proceed to Order'),
-        icon: const Icon(Icons.arrow_forward_ios_sharp),
-        backgroundColor: Colors.pink,
-      ),
+      // floatingActionButton: FloatingActionButton.extended(
+      //   onPressed: () {
+      //     Navigator.push(context,
+      //         MaterialPageRoute(builder: (context) => const ShowItems()));
+      //     // Add your onPressed code here!
+      //   },
+      //   label: const Text('Proceed to Order'),
+      //   icon: const Icon(Icons.arrow_forward_ios_sharp),
+      //   backgroundColor: Colors.pink,
+      // ),
     );
   }
 }

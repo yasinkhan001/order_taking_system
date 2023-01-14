@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart' as fs;
 import 'package:flutter/material.dart';
 import 'package:order_taking_system/Models/data_model.dart';
+import 'package:order_taking_system/Screens/user/result/result_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CartWidget extends StatefulWidget {
@@ -30,13 +31,18 @@ class _CartWidgetState extends State<CartWidget> {
     }
   }
 
+  List<String> _category = [
+    'Parcel',
+    'Dine in',
+  ]; // Option 2
+  String? _selectedCategory;
   @override
   Widget build(BuildContext context) {
     cartProducts = widget.products;
     data();
 
     return Container(
-      height: 400,
+      height: 500,
       width: MediaQuery.of(context).size.width * 0.9,
       color: Colors.white,
       child: Padding(
@@ -158,12 +164,32 @@ class _CartWidgetState extends State<CartWidget> {
                                   icon: const Icon(
                                     Icons.add,
                                     color: Colors.pink,
-                                  ))
+                                  )),
                             ]),
                       ),
                     );
                   }),
             ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                DropdownButton(
+                  hint: Text('parcel ?'), // Not necessary for Option 1
+                  value: _selectedCategory,
+
+                  items: _category.map((item) {
+                    return DropdownMenuItem<String>(
+                        child: new Text(item), value: item);
+                  }).toList(),
+                  onChanged: (newValue) {
+                    // setState(() {
+                    //   _selectedCategory = newValue.toString();
+                    // });
+                  },
+                ),
+              ],
+            ),
+            const Spacer(),
             Row(
               children: [
                 const Text(
@@ -181,11 +207,14 @@ class _CartWidgetState extends State<CartWidget> {
                       SharedPreferences pref =
                           await SharedPreferences.getInstance();
                       String? tbl = pref.getString('table');
-                      Order order = Order(
-                        orderTable: OrderTable.fromJson(tbl!),
+                      Map<String, dynamic> mp = jsonDecode(tbl!);
+                      print(mp);
+                      UserOrder order = UserOrder(
+                        orderTable: OrderTable.fromMap(mp),
                         orderPrice: total,
                         descriptions: '',
                         products: cartProducts,
+                        status: 'Pending',
                         createdAt: DateTime.now(),
                         updatedAt: DateTime.now(),
                       );
@@ -194,10 +223,17 @@ class _CartWidgetState extends State<CartWidget> {
                           .collection('orders')
                           .add(order.toMap())
                           .then((value) async {
+                        _go() => Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    ResultOfOrder(id: value.id)));
                         await fs.FirebaseFirestore.instance
                             .collection('orders')
                             .doc(value.id)
                             .update({'id': value.id});
+                        _go();
+                        widget.onChange([]);
                       });
 
                       ///Upload table
