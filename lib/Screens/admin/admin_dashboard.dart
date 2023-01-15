@@ -2,12 +2,7 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:order_taking_system/Screens/admin/completed_orders.dart';
-import 'package:order_taking_system/Screens/admin/generate_token.dart';
-import 'package:order_taking_system/Screens/admin/inprogress_order.dart';
-import 'package:order_taking_system/Screens/admin/order_list.dart';
-import 'package:order_taking_system/Screens/admin/pending_orders.dart';
-import 'package:order_taking_system/Screens/admin/recipes.dart';
+import 'package:order_taking_system/Screens/admin/dawer.dart';
 import 'package:order_taking_system/Screens/admin/waiter_profile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -71,71 +66,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-          endDrawer: Drawer(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                const Padding(
-                  padding: EdgeInsets.only(top: 35.0),
-                  child: ColoredBox(
-                    color: Colors.teal,
-                    child: SizedBox(
-                      height: 150,
-                      width: 250,
-                    ),
-                  ),
-                ),
-                Card(
-                    child: ListTile(
-                  title: const Text("Pending"),
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const PendingOrders()));
-                  },
-                )),
-                Card(
-                    child: ListTile(
-                  title: const Text("In Progress"),
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const InprogressOrders()));
-                  },
-                )),
-                Card(
-                    child: ListTile(
-                  title: const Text("Completed"),
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const CompleteOrders()));
-                  },
-                )),
-                Card(
-                    child: ListTile(
-                  title: const Text("Recipes"),
-                  onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Recipes()));
-                  },
-                )),
-                Card(
-                    child: ListTile(
-                  title: const Text("Add Tables"),
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => GenerateToken()));
-                  },
-                )),
-              ],
-            ),
-          ),
+          endDrawer: AppDrawer(),
           appBar: AppBar(
             leading: IconButton(
               onPressed: () {
@@ -143,7 +74,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
               },
               icon: const Icon(Icons.arrow_back_ios),
             ),
-            title: const Text('Waiter'),
+            title: const Text('Waiters'),
           ),
           body: StreamBuilder(
               stream:
@@ -156,7 +87,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
                       .toList();
                   return ListView.separated(
                     itemCount: tables.length,
-                    separatorBuilder: (BuildContext con, int ind) => Divider(
+                    separatorBuilder: (BuildContext con, int ind) =>
+                        const Divider(
                       height: 1,
                       color: Colors.grey,
                       thickness: 1,
@@ -165,40 +97,43 @@ class _AdminDashboardState extends State<AdminDashboard> {
                     itemBuilder: (context, index) {
                       //   final item = _chairCount[index];
 
-                      return Container(
-                        child: ListTile(
-                          onTap: () async {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => WaiterProfile()));
-                            // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            //     content: Container(
-                            //   color: Colors.teal,
-                            //   child: Text('${tables[index].descriptions}'),
-                            // )));
-                          },
+                      return ListTile(
+                        onTap: () async {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => WaiterProfile(
+                                        waiter: tables[index],
+                                      )));
+                          // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          //     content: Container(
+                          //   color: Colors.teal,
+                          //   child: Text('${tables[index].descriptions}'),
+                          // )));
+                        },
 
-                          leading: CircleAvatar(
+                        leading: CircleAvatar(
                             radius: 35,
                             backgroundColor: Colors.pink,
-                            child: Image.network(tables[index].img ??
-                                'https://cdn2.iconfinder.com/data/icons/circle-icons-1/64/profle-512.png'),
+                            foregroundImage: NetworkImage(tables[index].img ??
+                                'https://cdn2.iconfinder.com/data/icons/circle-icons-1/64/profle-512.png')),
+                        trailing: IconButton(
+                          onPressed: () {
+                            appDialog(context, tables[index].id);
+                          },
+                          icon: const Icon(
+                            Icons.delete,
+                            size: 20,
+                            color: Colors.red,
                           ),
-                          trailing: IconButton(
-                            onPressed: () {
-                              appDialog(context, tables[index].id);
-                            },
-                            icon: Icon(Icons.remove_circle),
-                          ),
-
-                          title: Text('${tables[index].descriptions}'),
-                          subtitle: Text('${tables[index].tableChairsCount}'),
-
-                          // style: new ListTileTheme(
-                          //   selectedColor: Colors.pink,
-                          // ),
                         ),
+
+                        title: Text('${tables[index].descriptions}'),
+                        subtitle: Text('${tables[index].tableChairsCount}'),
+
+                        // style: new ListTileTheme(
+                        //   selectedColor: Colors.pink,
+                        // ),
                       );
                     },
                     // children: [
