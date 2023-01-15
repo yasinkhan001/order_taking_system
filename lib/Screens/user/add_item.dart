@@ -115,7 +115,7 @@ class _ItemsListUserSideState extends State<ItemsListUserSide> {
                 documentSnapshot.data();
 
                 return Card(
-                  margin: const EdgeInsets.only(top: 22.0, left: 5, right: 5),
+                  margin: const EdgeInsets.only(top: 5.0, left: 5, right: 5),
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Row(

@@ -2,70 +2,22 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:order_taking_system/Screens/admin/completed_orders.dart';
-import 'package:order_taking_system/Screens/admin/generate_token.dart';
-import 'package:order_taking_system/Screens/admin/inprogress_order.dart';
-import 'package:order_taking_system/Screens/admin/order_list.dart';
 import 'package:order_taking_system/Screens/admin/pending_orders.dart';
 import 'package:order_taking_system/Screens/admin/recipes.dart';
-import 'package:order_taking_system/Screens/admin/waiter_profile.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../Models/data_model.dart';
+import 'completed_orders.dart';
+import 'generate_token.dart';
+import 'inprogress_order.dart';
 
-class AdminDashboard extends StatefulWidget {
-  const AdminDashboard({Key? key}) : super(key: key);
+class WaiterProfile extends StatefulWidget {
+  const WaiterProfile({Key? key}) : super(key: key);
 
   @override
-  State<AdminDashboard> createState() => _AdminDashboardState();
+  State<WaiterProfile> createState() => _WaiterProfileState();
 }
 
-class _AdminDashboardState extends State<AdminDashboard> {
-  String _chairCount = '';
-  OrderTable? order;
-  Table? waiter;
-  String _desc = '';
-
-  @override
-  void initState() {
-    super.initState();
-    // _loadCounter();
-    // OrderTable orderTable = OrderTable.fromJson(_chairCount);
-  }
-
-  _loadCounter() async {
-    // Future<String?> getText() async {
-    //   SharedPreferences prefs = await SharedPreferences.getInstance();
-    //   // OrderTable order = OrderTable().fromJson('table');
-    //   // Map json = jsonDecode(prefs.getString(''));
-    //   var tbl = OrderTable.fromJson(prefs);
-    //   prefs.getString('table');
-    //
-    //   // return prefs.getString('Desc');
-    // }
-
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    OrderTable? tbl;
-    setState(() {
-      // if (order != null) {
-      //   OrderTable orderTable = OrderTable.fromJson(_desc);
-      //   // Map<String, dynamic> orderTable = json.decode(_chairCount);
-      //
-      //   _desc = (prefs.getString('table') ?? '');
-      //   print(orderTable.descriptions);
-      // }
-
-      // OrderTable orderTable = OrderTable.fromJson(_chairCount);
-      _chairCount = (prefs.getString('table') ?? '');
-      Map<String, dynamic> decodedMap = json.decode(tbl.toString());
-      print(decodedMap);
-      _desc = (prefs.getString('Desc') ?? '');
-
-      // }
-      // }
-    });
-  }
-
+class _WaiterProfileState extends State<WaiterProfile> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -143,7 +95,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
               },
               icon: const Icon(Icons.arrow_back_ios),
             ),
-            title: const Text('Waiter'),
+            title: const Text('Waiter Profile'),
           ),
           body: StreamBuilder(
               stream:
@@ -168,15 +120,11 @@ class _AdminDashboardState extends State<AdminDashboard> {
                       return Container(
                         child: ListTile(
                           onTap: () async {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => WaiterProfile()));
-                            // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            //     content: Container(
-                            //   color: Colors.teal,
-                            //   child: Text('${tables[index].descriptions}'),
-                            // )));
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: Container(
+                              color: Colors.teal,
+                              child: Text('${tables[index].descriptions}'),
+                            )));
                           },
 
                           leading: CircleAvatar(
@@ -226,7 +174,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
     );
   }
 
-  appDialog(BuildContext context, id) {
+  void appDialog(BuildContext context, String? id) {
     showDialog(
         context: context,
         builder: (context) {
@@ -248,7 +196,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
         });
   }
 
-  delete(id) async {
+  void delete(String? id) async {
     await FirebaseFirestore.instance.collection('tables').doc(id).delete();
   }
 }

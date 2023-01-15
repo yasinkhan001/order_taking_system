@@ -31,11 +31,11 @@ class _CartWidgetState extends State<CartWidget> {
     }
   }
 
-  List<String> _category = [
+  List<String> _options = [
     'Parcel',
     'Dine in',
   ]; // Option 2
-  String? _selectedCategory;
+  String? _selectedOptions;
   @override
   Widget build(BuildContext context) {
     cartProducts = widget.products;
@@ -174,17 +174,18 @@ class _CartWidgetState extends State<CartWidget> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 DropdownButton(
-                  hint: Text('parcel ?'), // Not necessary for Option 1
-                  value: _selectedCategory,
+                  hint: const Text(
+                      'parcel or dine in ?'), // Not necessary for Option 1
+                  value: _selectedOptions,
 
-                  items: _category.map((item) {
+                  items: _options.map((item) {
                     return DropdownMenuItem<String>(
-                        child: new Text(item), value: item);
+                        child: Text(item), value: item);
                   }).toList(),
                   onChanged: (newValue) {
-                    // setState(() {
-                    //   _selectedCategory = newValue.toString();
-                    // });
+                    setState(() {
+                      _selectedOptions = newValue.toString();
+                    });
                   },
                 ),
               ],
@@ -212,7 +213,7 @@ class _CartWidgetState extends State<CartWidget> {
                       UserOrder order = UserOrder(
                         orderTable: OrderTable.fromMap(mp),
                         orderPrice: total,
-                        descriptions: '',
+                        descriptions: _selectedOptions,
                         products: cartProducts,
                         status: 'Pending',
                         createdAt: DateTime.now(),

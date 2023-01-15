@@ -77,18 +77,18 @@ class _AddRecipesState extends State<AddRecipes> {
               //   controller: _timestampupdated,
               //   decoration: const InputDecoration(labelText: 'updated at'),
               // ),
-              TextField(
-                keyboardType:
-                    const TextInputType.numberWithOptions(decimal: true),
-                controller: _sold,
-                decoration: const InputDecoration(labelText: 'Sold'),
-              ),
-              TextField(
-                keyboardType:
-                    const TextInputType.numberWithOptions(decimal: true),
-                controller: _left,
-                decoration: const InputDecoration(labelText: 'Left'),
-              ),
+              // TextField(
+              //   keyboardType:
+              //       const TextInputType.numberWithOptions(decimal: true),
+              //   controller: _sold,
+              //   decoration: const InputDecoration(labelText: 'Sold'),
+              // ),
+              // TextField(
+              //   keyboardType:
+              //       const TextInputType.numberWithOptions(decimal: true),
+              //   controller: _left,
+              //   decoration: const InputDecoration(labelText: 'Left'),
+              // ),
               TextField(
                 keyboardType:
                     const TextInputType.numberWithOptions(decimal: true),

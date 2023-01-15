@@ -93,8 +93,8 @@ class _GenerateTokenState extends State<GenerateToken> {
                     controller: chairCount,
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
-                      labelText: 'Chair Count',
-                      hintText: 'Enter Number of Chairs',
+                      labelText: 'Contact Number',
+                      hintText: 'Enter Waiter Contact Number',
                     ),
                   ),
                 ),
