@@ -217,7 +217,7 @@ class _ResultOfOrder extends State<ResultOfOrder> {
                     Padding(
                       padding: const EdgeInsets.all(4.0),
                       child: Text(
-                        orders.descriptions!,
+                        orders.descriptions ?? ' ',
                         style: Theme.of(context).textTheme.bodySmall,
                       ),
                     ),
