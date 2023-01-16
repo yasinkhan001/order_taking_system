@@ -220,6 +220,7 @@ class _ResultOfOrder extends State<ResultOfOrder> {
                         orders.descriptions ?? ' ',
                         style: Theme.of(context).textTheme.bodySmall,
                       ),
+
                     ),
                     const SizedBox(
                       height: 30,
