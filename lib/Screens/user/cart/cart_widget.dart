@@ -233,7 +233,7 @@ class _CartWidgetState extends State<CartWidget> {
                             .collection('orders')
                             .doc(value.id)
                             .update({'id': value.id});
-                        _go();
+                        // _go();
                         widget.onChange([]);
                       });
 

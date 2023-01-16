@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:order_taking_system/Screens/admin/admin_dashboard.dart';
-import 'package:order_taking_system/Screens/admin/generate_token.dart';
-import 'package:order_taking_system/Screens/user/add_item.dart';
+import 'package:order_taking_system/Screens/admin/add_waiter.dart';
+import 'package:order_taking_system/Screens/user/items_list_user_side.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class InitialScreen extends StatefulWidget {
@@ -44,14 +44,14 @@ class _InitialScreenState extends State<InitialScreen> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const GenerateToken()));
+                            builder: (context) => const AddWaiter()));
                   },
                   child: Container(
                       padding: const EdgeInsets.all(10),
                       color: Colors.pink,
                       child: const Center(
                           child: Text(
-                        '  Add Table  ',
+                        '  Add Waiter  ',
                         style: TextStyle(color: Colors.white),
                       ))))),
           Center(

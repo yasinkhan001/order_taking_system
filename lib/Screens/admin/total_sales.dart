@@ -9,6 +9,8 @@ class TotalSales extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var _stateDate = DateTime.now();
+    DateTime date = _stateDate;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Total Sales'),
@@ -24,24 +26,42 @@ class TotalSales extends StatelessWidget {
             print('Length:${bb.length}');
             List<UserOrder> orders = bb
                 .map((a) => UserOrder.fromJson(jsonEncode(a.data())))
+                .where((order) => order.createdAt!
+                    .isAfter(_stateDate.subtract(Duration(days: 1))))
                 .toList();
             var totalSales = orders
                 .map((e) => e.products
-                    ?.map((e) => e.price! + e.quantity!.toDouble())
+                    ?.map((e) => e.price! * e.quantity!.toDouble())
                     .fold<double>(0.0, (a, b) => a + b))
                 .fold<double>(0.0, (double? a, double? b) => a! + b!);
-            print(totalSales);
+
+            var totalItems = orders.length;
+            // ?.map((e) => e.name! )
+            // .fold<double>(0.0, (a, b) => a + b))
+            // .fold<double>(0.0, (double? a, double? b) => a! + b!);
+            // print(totalItems);
 
             return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Total Sales',
-                    style: Theme.of(context).textTheme.headline2,
+                    'Today Sales',
+                    style: Theme.of(context).textTheme.headline3,
                   ),
                   Text(
                     '$totalSales',
+                    style: Theme.of(context).textTheme.headline4,
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Text(
+                    'Today Orders',
+                    style: Theme.of(context).textTheme.headline3,
+                  ),
+                  Text(
+                    '$totalItems',
                     style: Theme.of(context).textTheme.headline4,
                   ),
                 ],
