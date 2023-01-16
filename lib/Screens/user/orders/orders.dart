@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:order_taking_system/Controllers/service_controller.dart';
 import 'package:order_taking_system/Models/data_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class UsersSideOrders extends StatefulWidget {
   const UsersSideOrders({Key? key}) : super(key: key);
@@ -13,17 +14,33 @@ class UsersSideOrders extends StatefulWidget {
 }
 
 class _UsersSideOrders extends State<UsersSideOrders> {
+  String? id;
+  myData() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String? aa = preferences.getString('table');
+    Map<String, dynamic> map = json.decode(aa!);
+    OrderTable waiter = OrderTable.fromMap(map);
+    print(waiter.id);
+    return waiter.id;
+  }
+
+  @override
+  initState() {
+    super.initState();
+    id = myData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Pending Orders'),
+        title: const Text('User Orders'),
       ),
       body: StreamBuilder(
           stream: FirebaseFirestore.instance
               .collection('orders')
               // .orderBy('created_at', descending: true)
-              .where('status', isEqualTo: 'Pending')
+              .where('orderTable.id', isEqualTo: id)
               .snapshots(),
           builder: (context, AsyncSnapshot<QuerySnapshot> snap) {
             if (snap.hasData) {

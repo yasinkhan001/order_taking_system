@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:order_taking_system/Screens/admin/completed_orders.dart';
-import 'package:order_taking_system/Screens/admin/generate_token.dart';
+import 'package:order_taking_system/Screens/admin/add_waiter.dart';
 import 'package:order_taking_system/Screens/admin/inprogress_order.dart';
 import 'package:order_taking_system/Screens/admin/pending_orders.dart';
 import 'package:order_taking_system/Screens/admin/recipes.dart';
@@ -67,10 +67,8 @@ class AppDrawer extends StatelessWidget {
               child: ListTile(
             title: const Text("Add Tables"),
             onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const GenerateToken()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const AddWaiter()));
             },
           )),
           Card(

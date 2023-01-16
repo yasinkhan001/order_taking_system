@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:order_taking_system/Screens/admin/completed_orders.dart';
-import 'package:order_taking_system/Screens/admin/generate_token.dart';
+import 'package:order_taking_system/Screens/admin/add_waiter.dart';
 import 'package:order_taking_system/Screens/admin/inprogress_order.dart';
 import 'package:order_taking_system/Screens/admin/order_list.dart';
 import 'package:order_taking_system/Screens/admin/pending_orders.dart';
@@ -128,10 +128,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
                     child: ListTile(
                   title: const Text("Add Waiter"),
                   onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => GenerateToken()));
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => AddWaiter()));
                   },
                 )),
                 Card(
@@ -200,7 +198,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
                             onPressed: () {
                               appDialog(context, tables[index].id);
                             },
-                            icon: Icon(Icons.remove_circle),
+                            icon: Icon(Icons.delete),
+                            color: Colors.red,
                           ),
 
                           title: Text('${tables[index].descriptions}'),

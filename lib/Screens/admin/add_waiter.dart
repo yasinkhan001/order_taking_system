@@ -14,14 +14,14 @@ import 'package:order_taking_system/Controllers/service_controller.dart';
 
 import 'admin_dashboard.dart';
 
-class GenerateToken extends StatefulWidget {
-  const GenerateToken({Key? key}) : super(key: key);
+class AddWaiter extends StatefulWidget {
+  const AddWaiter({Key? key}) : super(key: key);
 
   @override
-  State<GenerateToken> createState() => _GenerateTokenState();
+  State<AddWaiter> createState() => _AddWaiterState();
 }
 
-class _GenerateTokenState extends State<GenerateToken> {
+class _AddWaiterState extends State<AddWaiter> {
   // String? _chairCount;
   final TextEditingController chairCount = TextEditingController();
   final TextEditingController tableDesc = TextEditingController();
@@ -168,7 +168,7 @@ class _GenerateTokenState extends State<GenerateToken> {
                   // textColor: Colors.white,
                   // color: Colors.blue,
 
-                  child: const Text('Add Table'),
+                  child: const Text('Add Waiter'),
                   onPressed: () async {
                     await saveText();
                     Navigator.pushAndRemoveUntil(

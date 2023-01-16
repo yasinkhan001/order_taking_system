@@ -7,7 +7,7 @@ import 'package:order_taking_system/Screens/admin/recipes.dart';
 
 import '../../Models/data_model.dart';
 import 'completed_orders.dart';
-import 'generate_token.dart';
+import 'add_waiter.dart';
 import 'inprogress_order.dart';
 
 class WaiterProfile extends StatefulWidget {
@@ -79,10 +79,8 @@ class _WaiterProfileState extends State<WaiterProfile> {
                     child: ListTile(
                   title: const Text("Add Tables"),
                   onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => GenerateToken()));
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => AddWaiter()));
                   },
                 )),
               ],

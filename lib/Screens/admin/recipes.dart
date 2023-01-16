@@ -60,16 +60,15 @@ class _RecipesState extends State<Recipes> {
                         //   child: Text(documentSnapshot['id'].toString()),
                         // ),
                         Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(8.0))),
+                          padding: const EdgeInsets.all(0.0),
+                          child: ClipRRect(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(8.0)),
                             child: Image.network(
                               documentSnapshot['img'],
-                              width: 330,
+                              width: MediaQuery.of(context).size.width,
                               fit: BoxFit.cover,
-                              height: 150,
+                              height: 180,
                             ),
                           ),
                         ),
@@ -103,7 +102,8 @@ class _RecipesState extends State<Recipes> {
                                   appDialog(context, documentSnapshot['id']);
                                 },
                                 icon: Icon(
-                                  Icons.remove_circle,
+                                  Icons.delete,
+                                  color: Colors.red,
                                 ))
                           ],
                         ),
