@@ -3,13 +3,18 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:order_taking_system/Contants/widgets.dart';
+import 'package:order_taking_system/Screens/admin/dawer.dart';
 import 'package:order_taking_system/Screens/common/initial_screen.dart';
 import 'package:order_taking_system/Screens/user/cart/cart_widget.dart';
+import 'package:order_taking_system/Screens/user/orders/orders.dart';
 import 'package:order_taking_system/Screens/user/show_item.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../Data/data.dart';
 import '../../Models/data_model.dart';
+import '../admin/completed_orders.dart';
+import '../admin/inprogress_order.dart';
+import '../admin/pending_orders.dart';
 
 class ItemsListUserSide extends StatefulWidget {
   const ItemsListUserSide({Key? key}) : super(key: key);
@@ -26,6 +31,36 @@ class _ItemsListUserSideState extends State<ItemsListUserSide> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer:
+          // AppDrawer(),
+          Drawer(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            const Padding(
+              padding: EdgeInsets.only(top: 35.0),
+              child: ColoredBox(
+                color: Colors.teal,
+                child: SizedBox(
+                  height: 150,
+                  width: 250,
+                ),
+              ),
+            ),
+            Card(
+                child: ListTile(
+              title: const Text("Placed Order"),
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const UsersSideOrders()));
+              },
+            )),
+          ],
+        ),
+      ),
+
       appBar: AppBar(
         title: const Text('Menu'),
         actions: [

@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:order_taking_system/Screens/admin/add_recipes.dart';
+import 'package:path/path.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import '../../Models/data_model.dart';
 import 'package:order_taking_system/Data/data.dart';
@@ -51,6 +52,8 @@ class _RecipesState extends State<Recipes> {
                   return Card(
                     margin: EdgeInsets.all(10.0),
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         // Padding(
                         //   padding: const EdgeInsets.all(8.0),
@@ -58,36 +61,66 @@ class _RecipesState extends State<Recipes> {
                         // ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Text(documentSnapshot['name']),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(documentSnapshot['price'].toString()),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(documentSnapshot['category']),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(documentSnapshot['quantity'].toString()),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(documentSnapshot['sold'].toString()),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(documentSnapshot['left'].toString()),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Image.network(
-                            documentSnapshot['img'],
-                            width: 50,
-                            height: 50,
+                          child: Container(
+                            decoration: BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(8.0))),
+                            child: Image.network(
+                              documentSnapshot['img'],
+                              width: 330,
+                              fit: BoxFit.cover,
+                              height: 150,
+                            ),
                           ),
                         ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                documentSnapshot['name'],
+                                style: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(documentSnapshot['category']),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text('Rs: ' +
+                                  documentSnapshot['price'].toString()),
+                            ),
+                            IconButton(
+                                onPressed: () {
+                                  appDialog(context, documentSnapshot['id']);
+                                },
+                                icon: Icon(
+                                  Icons.remove_circle,
+                                ))
+                          ],
+                        ),
+
+                        // Padding(
+                        //   padding: const EdgeInsets.all(8.0),
+                        //   child: Text(documentSnapshot['quantity'].toString()),
+                        // ),
+                        // Padding(
+                        //   padding: const EdgeInsets.all(8.0),
+                        //   child: Text(documentSnapshot['sold'].toString()),
+                        // ),
+                        // Padding(
+                        //   padding: const EdgeInsets.all(8.0),
+                        //   child: Text(documentSnapshot['left'].toString()),
+                        // ),
+
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(documentSnapshot['descriptions']),
@@ -120,6 +153,31 @@ class _RecipesState extends State<Recipes> {
   }
 }
 
+appDialog(BuildContext context, id) {
+  showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+            title: const Text("Are you sure want to delete?"),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text("Cancel")),
+              TextButton(
+                  onPressed: () {
+                    delete(id);
+                    Navigator.pop(context);
+                  },
+                  child: const Text("Delete")),
+            ]);
+      });
+}
+
+delete(id) async {
+  await FirebaseFirestore.instance.collection('products').doc(id).delete();
+}
 // class OrderTile extends StatelessWidget {
 //   const OrderTile({required this.order, Key? key}) : super(key: key);
 //   final Order order;

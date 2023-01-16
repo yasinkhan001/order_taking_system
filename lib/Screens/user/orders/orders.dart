@@ -3,18 +3,16 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:order_taking_system/Controllers/service_controller.dart';
-import 'package:order_taking_system/Data/data.dart';
+import 'package:order_taking_system/Models/data_model.dart';
 
-import '../../Models/data_model.dart' as or;
-
-class PendingOrders extends StatefulWidget {
-  const PendingOrders({Key? key}) : super(key: key);
+class UsersSideOrders extends StatefulWidget {
+  const UsersSideOrders({Key? key}) : super(key: key);
 
   @override
-  State<PendingOrders> createState() => _PendingOrders();
+  State<UsersSideOrders> createState() => _UsersSideOrders();
 }
 
-class _PendingOrders extends State<PendingOrders> {
+class _UsersSideOrders extends State<UsersSideOrders> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,8 +28,8 @@ class _PendingOrders extends State<PendingOrders> {
           builder: (context, AsyncSnapshot<QuerySnapshot> snap) {
             if (snap.hasData) {
               var bb = snap.data!.docs;
-              List<or.UserOrder> orders = bb
-                  .map((a) => or.UserOrder.fromJson(jsonEncode(a.data())))
+              List<UserOrder> orders = bb
+                  .map((a) => UserOrder.fromJson(jsonEncode(a.data())))
                   .toList();
               orders.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
               return ListView.builder(
@@ -81,7 +79,7 @@ class _PendingOrders extends State<PendingOrders> {
                               ],
                             ),
                           ),
-                          for (or.Product product in orders[index].products!)
+                          for (Product product in orders[index].products!)
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -246,20 +244,20 @@ class _PendingOrders extends State<PendingOrders> {
                           const SizedBox(
                             height: 30,
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(5.0),
-                                child: ElevatedButton(
-                                    onPressed: () {
-                                      ServiceController().orderStatusChange(
-                                          'Process', orders[index].id);
-                                    },
-                                    child: const Text('Accept')),
-                              ),
-                            ],
-                          )
+                          // Row(
+                          //   mainAxisAlignment: MainAxisAlignment.end,
+                          //   children: [
+                          //     Padding(
+                          //       padding: const EdgeInsets.all(5.0),
+                          //       child: ElevatedButton(
+                          //           onPressed: () {
+                          //             ServiceController().orderStatusChange(
+                          //                 'Process', orders[index].id);
+                          //           },
+                          //           child: const Text('Accept')),
+                          //     ),
+                          //   ],
+                          // )
                         ],
                       ),
                     );

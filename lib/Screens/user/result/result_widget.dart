@@ -146,7 +146,7 @@ class _ResultOfOrder extends State<ResultOfOrder> {
                         Padding(
                           padding: const EdgeInsets.all(4.0),
                           child: Text(
-                            'Table Name:',
+                            'Waiter Name:',
                             style: Theme.of(context)
                                 .textTheme
                                 .labelMedium!

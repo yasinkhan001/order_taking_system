@@ -7,7 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:order_taking_system/Screens/user/add_item.dart';
+import 'package:order_taking_system/Screens/user/items_list_user_side.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:order_taking_system/Models/data_model.dart';
 import 'package:order_taking_system/Controllers/service_controller.dart';
@@ -174,7 +174,7 @@ class _GenerateTokenState extends State<GenerateToken> {
                     Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => AdminDashboard()),
+                            builder: (context) => ItemsListUserSide()),
                         (route) => false);
                   },
                 ),
