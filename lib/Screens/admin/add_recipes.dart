@@ -89,12 +89,12 @@ class _AddRecipesState extends State<AddRecipes> {
               //   controller: _left,
               //   decoration: const InputDecoration(labelText: 'Left'),
               // ),
-              TextField(
-                keyboardType:
-                    const TextInputType.numberWithOptions(decimal: true),
-                controller: _quantity,
-                decoration: const InputDecoration(labelText: 'Quantity'),
-              ),
+              // TextField(
+              //   keyboardType:
+              //       const TextInputType.numberWithOptions(decimal: true),
+              //   controller: _quantity,
+              //   decoration: const InputDecoration(labelText: 'Quantity'),
+              // ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Row(

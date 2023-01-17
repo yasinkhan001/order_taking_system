@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:order_taking_system/Screens/admin/completed_orders.dart';
 import 'package:order_taking_system/Screens/admin/add_waiter.dart';
-import 'package:order_taking_system/Screens/admin/dawer.dart';
 import 'package:order_taking_system/Screens/admin/inprogress_order.dart';
 import 'package:order_taking_system/Screens/admin/order_list.dart';
 import 'package:order_taking_system/Screens/admin/pending_orders.dart';
@@ -15,14 +14,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../Models/data_model.dart';
 
-class AdminDashboard extends StatefulWidget {
-  const AdminDashboard({Key? key}) : super(key: key);
+class WaiterTodaySales extends StatefulWidget {
+  const WaiterTodaySales({Key? key}) : super(key: key);
 
   @override
-  State<AdminDashboard> createState() => _AdminDashboardState();
+  State<WaiterTodaySales> createState() => _WaiterTodaySalesState();
 }
 
-class _AdminDashboardState extends State<AdminDashboard> {
+class _WaiterTodaySalesState extends State<WaiterTodaySales> {
   String _chairCount = '';
   OrderTable? order;
   Table? waiter;
@@ -89,62 +88,61 @@ class _AdminDashboardState extends State<AdminDashboard> {
           //       ),
           //       Card(
           //           child: ListTile(
-          //         title: const Text("Pending"),
-          //         onTap: () {
-          //           Navigator.push(
-          //               context,
-          //               MaterialPageRoute(
-          //                   builder: (context) => const PendingOrders()));
-          //         },
-          //       )),
+          //             title: const Text("Pending"),
+          //             onTap: () {
+          //               Navigator.push(
+          //                   context,
+          //                   MaterialPageRoute(
+          //                       builder: (context) => const PendingOrders()));
+          //             },
+          //           )),
           //       Card(
           //           child: ListTile(
-          //         title: const Text("In Progress"),
-          //         onTap: () {
-          //           Navigator.push(
-          //               context,
-          //               MaterialPageRoute(
-          //                   builder: (context) => const InprogressOrders()));
-          //         },
-          //       )),
+          //             title: const Text("In Progress"),
+          //             onTap: () {
+          //               Navigator.push(
+          //                   context,
+          //                   MaterialPageRoute(
+          //                       builder: (context) => const InprogressOrders()));
+          //             },
+          //           )),
           //       Card(
           //           child: ListTile(
-          //         title: const Text("Completed"),
-          //         onTap: () {
-          //           Navigator.push(
-          //               context,
-          //               MaterialPageRoute(
-          //                   builder: (context) => const CompleteOrders()));
-          //         },
-          //       )),
+          //             title: const Text("Completed"),
+          //             onTap: () {
+          //               Navigator.push(
+          //                   context,
+          //                   MaterialPageRoute(
+          //                       builder: (context) => const CompleteOrders()));
+          //             },
+          //           )),
           //       Card(
           //           child: ListTile(
-          //         title: const Text("Recipes"),
-          //         onTap: () {
-          //           Navigator.push(context,
-          //               MaterialPageRoute(builder: (context) => Recipes()));
-          //         },
-          //       )),
+          //             title: const Text("Recipes"),
+          //             onTap: () {
+          //               Navigator.push(context,
+          //                   MaterialPageRoute(builder: (context) => Recipes()));
+          //             },
+          //           )),
           //       Card(
           //           child: ListTile(
-          //         title: const Text("Add Waiter"),
-          //         onTap: () {
-          //           Navigator.push(context,
-          //               MaterialPageRoute(builder: (context) => AddWaiter()));
-          //         },
-          //       )),
+          //             title: const Text("Add Waiter"),
+          //             onTap: () {
+          //               Navigator.push(context,
+          //                   MaterialPageRoute(builder: (context) => AddWaiter()));
+          //             },
+          //           )),
           //       Card(
           //           child: ListTile(
-          //         title: const Text("Today Sale"),
-          //         onTap: () {
-          //           Navigator.push(context,
-          //               MaterialPageRoute(builder: (context) => TotalSales()));
-          //         },
-          //       )),
+          //             title: const Text("Today Sale"),
+          //             onTap: () {
+          //               Navigator.push(context,
+          //                   MaterialPageRoute(builder: (context) => TotalSales()));
+          //             },
+          //           )),
           //     ],
           //   ),
           // ),
-          endDrawer: const AppDrawer(),
           appBar: AppBar(
             leading: IconButton(
               onPressed: () {
@@ -152,7 +150,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
               },
               icon: const Icon(Icons.arrow_back_ios),
             ),
-            title: const Text('Waiter'),
+            title: const Text('Waiter Today Sales'),
           ),
           body: StreamBuilder(
               stream:
@@ -182,6 +180,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                               MaterialPageRoute(
                                   builder: (context) => WaiterProfile(
                                         waiter: tables[index],
+                                        isSales: true,
                                       )));
                           // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           //     content: Container(

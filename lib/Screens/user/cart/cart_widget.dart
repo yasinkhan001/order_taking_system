@@ -234,6 +234,7 @@ class _CartWidgetState extends State<CartWidget> {
                             .doc(value.id)
                             .update({'id': value.id});
                         // _go();
+                        Navigator.pop(context);
                         widget.onChange([]);
                       });
 

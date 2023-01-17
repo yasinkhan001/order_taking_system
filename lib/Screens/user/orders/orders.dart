@@ -15,19 +15,20 @@ class UsersSideOrders extends StatefulWidget {
 
 class _UsersSideOrders extends State<UsersSideOrders> {
   String? id;
-  myData() async {
+  Future<String?> myData() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? aa = preferences.getString('table');
     Map<String, dynamic> map = json.decode(aa!);
     OrderTable waiter = OrderTable.fromMap(map);
     print(waiter.id);
+    id = waiter.id;
     return waiter.id;
   }
 
   @override
   initState() {
     super.initState();
-    id = myData();
+    myData();
   }
 
   @override
@@ -40,17 +41,18 @@ class _UsersSideOrders extends State<UsersSideOrders> {
           stream: FirebaseFirestore.instance
               .collection('orders')
               // .orderBy('created_at', descending: true)
-              .where('orderTable.id', isEqualTo: id)
+              // .where('orderTable.id', isEqualTo: id)
               .snapshots(),
           builder: (context, AsyncSnapshot<QuerySnapshot> snap) {
             if (snap.hasData) {
               var bb = snap.data!.docs;
               List<UserOrder> orders = bb
                   .map((a) => UserOrder.fromJson(jsonEncode(a.data())))
+                  .where((e) => e.orderTable?.id == id)
                   .toList();
               orders.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
               return ListView.builder(
-                  itemCount: snap.data!.docs.length,
+                  itemCount: orders.length,
                   itemBuilder: (context, index) {
                     return Card(
                       color: Colors.blueGrey,

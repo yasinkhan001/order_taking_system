@@ -5,6 +5,7 @@ import 'package:order_taking_system/Screens/admin/inprogress_order.dart';
 import 'package:order_taking_system/Screens/admin/pending_orders.dart';
 import 'package:order_taking_system/Screens/admin/recipes.dart';
 import 'package:order_taking_system/Screens/admin/total_sales.dart';
+import 'package:order_taking_system/Screens/admin/waiter_today_sales.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({Key? key}) : super(key: key);
@@ -77,6 +78,16 @@ class AppDrawer extends StatelessWidget {
             onTap: () {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => const TotalSales()));
+            },
+          )),
+          Card(
+              child: ListTile(
+            title: const Text("Waiters Sales"),
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const WaiterTodaySales()));
             },
           )),
         ],
