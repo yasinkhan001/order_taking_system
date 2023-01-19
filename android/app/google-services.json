@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "750895725913",
-    "project_id": "primeval-door-270207",
-    "storage_bucket": "primeval-door-270207.appspot.com"
+    "project_number": "998668501053",
+    "project_id": "order-tracking-system-b3db2",
+    "storage_bucket": "order-tracking-system-b3db2.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:750895725913:android:0fbc24eedc4e3b8576a048",
+        "mobilesdk_app_id": "1:998668501053:android:ff2a79154e8e718e4f2a54",
         "android_client_info": {
-          "package_name": "com.example.order_taking_system"
+          "package_name": "com.android.application"
         }
       },
       "oauth_client": [
         {
-          "client_id": "750895725913-orh41omtegrmaa0mu90ol89tn91ts537.apps.googleusercontent.com",
+          "client_id": "998668501053-uubdsr7jnsf511tgt63vqi3oiulovado.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCuYBgamHdjV6t6X6Qqm8VGrgAGagpO3PY"
+          "current_key": "AIzaSyBbBGDeNHSc6AxkCMe3lQP4uVV0fjcqCNA"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "750895725913-orh41omtegrmaa0mu90ol89tn91ts537.apps.googleusercontent.com",
+              "client_id": "998668501053-uubdsr7jnsf511tgt63vqi3oiulovado.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

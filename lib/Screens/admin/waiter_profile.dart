@@ -7,7 +7,7 @@ import 'package:order_taking_system/Screens/admin/recipes.dart';
 
 import '../../Models/data_model.dart';
 import 'completed_orders.dart';
-import 'add_waiter.dart';
+import '../../auth/register.dart';
 import 'inprogress_order.dart';
 
 class WaiterProfile extends StatefulWidget {

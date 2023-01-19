@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:order_taking_system/Screens/admin/completed_orders.dart';
-import 'package:order_taking_system/Screens/admin/add_waiter.dart';
+import 'package:order_taking_system/auth/register.dart';
 import 'package:order_taking_system/Screens/admin/dawer.dart';
 import 'package:order_taking_system/Screens/admin/inprogress_order.dart';
 import 'package:order_taking_system/Screens/admin/order_list.dart';
@@ -163,73 +163,84 @@ class _AdminDashboardState extends State<AdminDashboard> {
                   List<OrderTable> tables = bb
                       .map((a) => OrderTable.fromJson(jsonEncode(a.data())))
                       .toList();
-                  return ListView.separated(
-                    itemCount: tables.length,
-                    separatorBuilder: (BuildContext con, int ind) =>
-                        const Divider(
-                      height: 1,
-                      color: Colors.grey,
-                      thickness: 1,
-                    ),
+                  if (tables.isNotEmpty) {
+                    return ListView.separated(
+                      itemCount: tables.length,
+                      separatorBuilder: (BuildContext con, int ind) =>
+                          const Divider(
+                        height: 1,
+                        color: Colors.grey,
+                        thickness: 1,
+                      ),
 
-                    itemBuilder: (context, index) {
-                      //   final item = _chairCount[index];
+                      itemBuilder: (context, index) {
+                        //   final item = _chairCount[index];
 
-                      return ListTile(
-                        onTap: () async {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => WaiterProfile(
-                                        waiter: tables[index],
-                                      )));
-                          // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          //     content: Container(
-                          //   color: Colors.teal,
-                          //   child: Text('${tables[index].descriptions}'),
-                          // )));
-                        },
-
-                        leading: CircleAvatar(
-                          radius: 35,
-                          backgroundColor: Colors.pink,
-                          backgroundImage: NetworkImage(tables[index].img ??
-                              "https://cdn2.iconfinder.com/data/icons/circle-icons-1/64/profle-512.png"),
-                          // child:Image.network(tables[index].img ??
-                          //     'https://cdn2.iconfinder.com/data/icons/circle-icons-1/64/profle-512.png'),
-                        ),
-                        trailing: IconButton(
-                          onPressed: () {
-                            appDialog(context, tables[index].id);
+                        return ListTile(
+                          onTap: () async {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => WaiterProfile(
+                                          waiter: tables[index],
+                                        )));
+                            // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            //     content: Container(
+                            //   color: Colors.teal,
+                            //   child: Text('${tables[index].descriptions}'),
+                            // )));
                           },
-                          icon: Icon(Icons.delete),
-                          color: Colors.red,
-                        ),
 
-                        title: Text('${tables[index].descriptions}'),
-                        subtitle: Text('${tables[index].tableChairsCount}'),
+                          leading: CircleAvatar(
+                            radius: 35,
+                            backgroundColor: Colors.pink,
+                            backgroundImage: NetworkImage(tables[index].img !=
+                                    null
+                                ? tables[index].img!.contains('http')
+                                    ? tables[index].img!
+                                    : "https://cdn2.iconfinder.com/data/icons/circle-icons-1/64/profle-512.png"
+                                : "https://cdn2.iconfinder.com/data/icons/circle-icons-1/64/profle-512.png"),
+                            // child:Image.network(tables[index].img ??
+                            //     'https://cdn2.iconfinder.com/data/icons/circle-icons-1/64/profle-512.png'),
+                          ),
+                          trailing: IconButton(
+                            onPressed: () {
+                              appDialog(context, tables[index].id);
+                            },
+                            icon: Icon(Icons.delete),
+                            color: Colors.red,
+                          ),
 
-                        // style: new ListTileTheme(
-                        //   selectedColor: Colors.pink,
-                        // ),
-                      );
-                    },
-                    // children: [
-                    //   Card(
-                    //       child: Container(
-                    //     height: 80,
-                    //     width: double.infinity,
-                    //     decoration:
-                    //         (BoxDecoration(borderRadius: BorderRadius.circular(12))),
-                    //     child: Padding(
-                    //       padding: EdgeInsets.only(top: 25.0, left: 10),
-                    //       child: new Text("Table No: ${_chairCount} ${_desc}",
-                    //           style:
-                    //               TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-                    //     ),
-                    //   ))
-                    // ],
-                  );
+                          title: Text('${tables[index].descriptions}'),
+                          subtitle: Text('${tables[index].tableChairsCount}'),
+
+                          // style: new ListTileTheme(
+                          //   selectedColor: Colors.pink,
+                          // ),
+                        );
+                      },
+                      // children: [
+                      //   Card(
+                      //       child: Container(
+                      //     height: 80,
+                      //     width: double.infinity,
+                      //     decoration:
+                      //         (BoxDecoration(borderRadius: BorderRadius.circular(12))),
+                      //     child: Padding(
+                      //       padding: EdgeInsets.only(top: 25.0, left: 10),
+                      //       child: new Text("Table No: ${_chairCount} ${_desc}",
+                      //           style:
+                      //               TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+                      //     ),
+                      //   ))
+                      // ],
+                    );
+                  } else {
+                    return const Center(child: Text('No Waiters'));
+                  }
+                }
+                if (snapshot.hasError) {
+                  return Center(child: Text('${snapshot.error}'));
                 } else {
                   return const Center(
                     child: CircularProgressIndicator(),

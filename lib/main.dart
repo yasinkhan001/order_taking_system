@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:order_taking_system/Screens/common/initial_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:order_taking_system/Screens/common/onboarding_screen.dart';
+import 'package:order_taking_system/auth/login.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,7 +33,7 @@ class MyApp extends StatelessWidget {
 
         primarySwatch: Colors.blue,
       ),
-      home: const InitialScreen(),
+      home: const OnboardingScreen(),
     );
   }
 }

@@ -5,6 +5,7 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:order_taking_system/Contants/collections.dart';
 import 'package:order_taking_system/Models/data_model.dart';
 import 'package:order_taking_system/Screens/admin/recipes.dart';
 
@@ -86,7 +87,7 @@ class ServiceController {
 
   Future<void> orderStatusChange(status, orderId) async {
     await FirebaseFirestore.instance
-        .collection('orders')
+        .collection(AppUtils.ORDERS)
         .doc(orderId)
         .update({'status': status});
   }

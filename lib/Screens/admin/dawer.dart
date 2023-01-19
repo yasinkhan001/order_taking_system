@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:order_taking_system/Screens/admin/completed_orders.dart';
-import 'package:order_taking_system/Screens/admin/add_waiter.dart';
+import 'package:order_taking_system/auth/register.dart';
 import 'package:order_taking_system/Screens/admin/inprogress_order.dart';
 import 'package:order_taking_system/Screens/admin/pending_orders.dart';
 import 'package:order_taking_system/Screens/admin/recipes.dart';
 import 'package:order_taking_system/Screens/admin/total_sales.dart';
 import 'package:order_taking_system/Screens/admin/waiter_today_sales.dart';
+import 'package:order_taking_system/auth/login.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({Key? key}) : super(key: key);
@@ -68,8 +69,10 @@ class AppDrawer extends StatelessWidget {
               child: ListTile(
             title: const Text("Add Tables"),
             onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const AddWaiter()));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const Registration()));
             },
           )),
           Card(
@@ -88,6 +91,14 @@ class AppDrawer extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                       builder: (context) => const WaiterTodaySales()));
+            },
+          )),
+          Card(
+              child: ListTile(
+            title: const Text("Login"),
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const LoginScreen()));
             },
           )),
         ],

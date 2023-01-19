@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:firebase_auth/firebase_auth.dart';
+
 class UserOrder {
   UserOrder({
     this.id,
@@ -18,6 +20,7 @@ class UserOrder {
   final String? status;
   final List<Product>? products;
   final String? descriptions;
+
   final DateTime? createdAt;
   final DateTime? updatedAt;
 
