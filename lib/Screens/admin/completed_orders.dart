@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:order_taking_system/Screens/common/app_colors.dart';
 import '../../Models/data_model.dart' as or;
 
 class CompleteOrders extends StatefulWidget {
@@ -16,40 +17,48 @@ class _CompleteOrders extends State<CompleteOrders> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Completed Orders'),
+        title: const Text(
+          'Completed Orders',
+          style: appThemeColor,
+        ),
+        iconTheme: IconThemeData(color: appBarIconColor),
+        backgroundColor: Color(0xF8FFC313),
       ),
       body: Column(
         children: [
           ColoredBox(
-            color: Colors.amber,
+            color: appBarIconColor,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Padding(
+              children: const [
+                Padding(
                   padding: EdgeInsets.all(4.0),
-                  child: Text('Image'),
+                  child: Text(
+                    'Image',
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(4.0),
+                  padding: EdgeInsets.all(4.0),
                   child: Text(
                     'Product',
-                    style: Theme.of(context).textTheme.labelLarge,
+                    style: TextStyle(color: Colors.white),
                   ),
                 ),
-                const Spacer(),
+                Spacer(),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  padding: EdgeInsets.symmetric(horizontal: 8.0),
                   child: Text(
                     'Price',
-                    style: Theme.of(context).textTheme.labelLarge,
+                    style: TextStyle(color: Colors.white),
                   ),
                 ),
-                const Spacer(),
+                Spacer(),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                  padding: EdgeInsets.symmetric(horizontal: 24.0),
                   child: Text(
                     'Quantity',
-                    style: Theme.of(context).textTheme.labelLarge,
+                    style: TextStyle(color: Colors.white),
                   ),
                 ),
               ],
@@ -75,7 +84,7 @@ class _CompleteOrders extends State<CompleteOrders> {
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
                           return Card(
-                            color: Colors.blueGrey,
+                            color: appBarColor,
                             child: Column(
                               children: [
                                 for (or.Product product
@@ -166,7 +175,7 @@ class _CompleteOrders extends State<CompleteOrders> {
                                     Padding(
                                       padding: const EdgeInsets.all(4.0),
                                       child: Text(
-                                        'Table Name:',
+                                        'Waiter:',
                                         style: Theme.of(context)
                                             .textTheme
                                             .labelMedium!
@@ -177,10 +186,7 @@ class _CompleteOrders extends State<CompleteOrders> {
                                     Padding(
                                       padding: const EdgeInsets.all(4.0),
                                       child: Text(
-                                        orders[index]
-                                                .orderTable!
-                                                .descriptions ??
-                                            'No Table',
+                                        orders[index].user!.name ?? 'No Table',
                                         style: Theme.of(context)
                                             .textTheme
                                             .labelMedium,
@@ -188,6 +194,30 @@ class _CompleteOrders extends State<CompleteOrders> {
                                     ),
                                   ],
                                 ),
+                                Row(children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(4.0),
+                                    child: Text(
+                                      'Table Name:',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelMedium!
+                                          .copyWith(
+                                              fontWeight: FontWeight.w700),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(4.0),
+                                    child: Text(
+                                      orders[index].orderTable!.descriptions ??
+                                          'No Table',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelMedium,
+                                    ),
+                                  ),
+                                ]),
+
                                 Row(
                                   children: [
                                     Padding(
@@ -240,23 +270,22 @@ class _CompleteOrders extends State<CompleteOrders> {
                                     ),
                                   ],
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.all(4.0),
-                                  child: Text(
-                                    'Descriptions:',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .labelMedium!
-                                        .copyWith(fontWeight: FontWeight.w700),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(4.0),
-                                  child: Text(
-                                    orders[index].descriptions!,
-                                    style:
-                                        Theme.of(context).textTheme.bodySmall,
-                                  ),
+                                Row(
+                                  children: [
+                                    Text(
+                                      'Dine in | Parcel: ',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelMedium!
+                                          .copyWith(
+                                              fontWeight: FontWeight.w700),
+                                    ),
+                                    Text(
+                                      orders[index].descriptions ?? ' ',
+                                      style:
+                                          Theme.of(context).textTheme.bodySmall,
+                                    ),
+                                  ],
                                 ),
                                 const SizedBox(
                                   height: 30,

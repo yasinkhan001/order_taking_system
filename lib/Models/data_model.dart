@@ -1,11 +1,13 @@
 import 'dart:convert';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:order_taking_system/Models/user_model.dart';
 
 class UserOrder {
   UserOrder({
     this.id,
     this.orderTable,
+    this.user,
     this.orderPrice,
     this.status,
     this.products,
@@ -16,6 +18,7 @@ class UserOrder {
 
   final String? id;
   final OrderTable? orderTable;
+  final AppUser? user;
   final double? orderPrice;
   final String? status;
   final List<Product>? products;
@@ -27,6 +30,7 @@ class UserOrder {
   UserOrder copyWith({
     String? id,
     OrderTable? orderTable,
+    AppUser? user,
     double? orderPrice,
     String? status,
     List<Product>? products,
@@ -37,6 +41,7 @@ class UserOrder {
       UserOrder(
         id: id ?? this.id,
         orderTable: orderTable ?? this.orderTable,
+        user: user ?? this.user,
         orderPrice: orderPrice ?? this.orderPrice,
         status: status ?? this.status,
         products: products ?? this.products,
@@ -54,6 +59,7 @@ class UserOrder {
         orderTable: json["orderTable"] == null
             ? null
             : OrderTable.fromMap(json["orderTable"]),
+        user: json["user"] == null ? null : AppUser.fromMap(json["user"]),
         orderPrice:
             json["orderPrice"] == null ? null : json["orderPrice"]!.toDouble(),
         status: json["status"],
@@ -73,6 +79,7 @@ class UserOrder {
   Map<String, dynamic> toMap() => {
         "id": id,
         "orderTable": orderTable == null ? null : orderTable!.toMap(),
+        "user": user == null ? null : user!.toMap(),
         "orderPrice": orderPrice,
         "status": status,
         "products": products == null
@@ -88,32 +95,24 @@ class OrderTable {
   OrderTable({
     this.id,
     this.descriptions,
-    this.img,
-    this.gender,
     this.tableChairsCount,
     this.status,
   });
 
   final String? id;
   final String? descriptions;
-  final String? img;
-  final String? gender;
   final int? tableChairsCount;
   final String? status;
 
   OrderTable copyWith({
     String? id,
     String? descriptions,
-    String? img,
-    String? gender,
     int? tableChairsCount,
     String? status,
   }) =>
       OrderTable(
         id: id ?? this.id,
         descriptions: descriptions ?? this.descriptions,
-        img: img ?? this.img,
-        gender: gender ?? this.gender,
         tableChairsCount: tableChairsCount ?? this.tableChairsCount,
         status: status ?? this.status,
       );
@@ -126,8 +125,6 @@ class OrderTable {
   factory OrderTable.fromMap(Map<String, dynamic> json) => OrderTable(
         id: json["id"],
         descriptions: json["descriptions"],
-        img: json["img"],
-        gender: json["gender"],
         tableChairsCount: json["tableChairsCount"],
         status: json["status"],
       );
@@ -135,8 +132,6 @@ class OrderTable {
   Map<String, dynamic> toMap() => {
         "id": id,
         "descriptions": descriptions,
-        "img": img,
-        "gender": gender,
         "tableChairsCount": tableChairsCount,
         "status": status,
       };

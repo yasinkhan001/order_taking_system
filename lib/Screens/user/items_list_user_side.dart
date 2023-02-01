@@ -3,7 +3,9 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:order_taking_system/Contants/widgets.dart';
+import 'package:order_taking_system/Controllers/auth_services.dart';
 import 'package:order_taking_system/Screens/admin/dawer.dart';
+import 'package:order_taking_system/Screens/common/app_colors.dart';
 import 'package:order_taking_system/Screens/common/initial_screen.dart';
 import 'package:order_taking_system/Screens/user/cart/cart_widget.dart';
 import 'package:order_taking_system/Screens/user/orders/orders.dart';
@@ -17,7 +19,9 @@ import '../admin/inprogress_order.dart';
 import '../admin/pending_orders.dart';
 
 class ItemsListUserSide extends StatefulWidget {
-  const ItemsListUserSide({Key? key}) : super(key: key);
+  const ItemsListUserSide({Key? key, this.product}) : super(key: key);
+
+  final Product? product;
 
   @override
   State<ItemsListUserSide> createState() => _ItemsListUserSideState();
@@ -40,10 +44,11 @@ class _ItemsListUserSideState extends State<ItemsListUserSide> {
             const Padding(
               padding: EdgeInsets.only(top: 35.0),
               child: ColoredBox(
-                color: Colors.teal,
+                color: Colors.white,
                 child: SizedBox(
                   height: 150,
                   width: 250,
+                  child: Image(image: AssetImage('assets/tikka.jpeg')),
                 ),
               ),
             ),
@@ -57,12 +62,21 @@ class _ItemsListUserSideState extends State<ItemsListUserSide> {
                         builder: (context) => const UsersSideOrders()));
               },
             )),
+            Card(
+                child: ListTile(
+              title: const Text("Logout"),
+              onTap: () {
+                AuthServices().logout(context);
+              },
+            )),
           ],
         ),
       ),
 
       appBar: AppBar(
-        title: const Text('Menu'),
+        title: const Text('Menu', style: appThemeColor),
+        iconTheme: const IconThemeData(color: Color(0xdc080c52)),
+        backgroundColor: Color(0xF8FFC313),
         actions: [
           InkWell(
             onTap: () async {
@@ -78,10 +92,10 @@ class _ItemsListUserSideState extends State<ItemsListUserSide> {
               child: SizedBox(
                 width: 35,
                 height: 35,
-                child: Icon(
-                  Icons.delete,
-                  color: Colors.red,
-                ),
+                // child: Icon(
+                //   Icons.delete,
+                //   color: Colors.red,
+                // ),
               ),
             ),
           ),
@@ -107,7 +121,7 @@ class _ItemsListUserSideState extends State<ItemsListUserSide> {
                   children: [
                     const Icon(
                       Icons.shopping_cart,
-                      color: Colors.white,
+                      color: Color(0xdc080c52),
                     ),
                     cartProducts.isNotEmpty
                         ? Positioned(
@@ -150,6 +164,79 @@ class _ItemsListUserSideState extends State<ItemsListUserSide> {
                 documentSnapshot.data();
 
                 return Card(
+                  child: ExpansionTile(
+                    leading: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Image.network(
+                        _products[index].img!,
+                        // documentSnapshot['img'],
+                        // fit: BoxFit.cover,
+                        fit: BoxFit.fill,
+                        width: 50,
+                        height: 50,
+                      ),
+                    ),
+                    trailing: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            List<Product> p = cartProducts
+                                .where((e) => e.id == _products[index].id)
+                                .toList();
+
+                            if (p.isEmpty) {
+                              cartProducts
+                                  .add(_products[index].copyWith(quantity: 1));
+                            } else {
+                              Product prod = p
+                                  .firstWhere(
+                                      (e) => e.id == _products[index].id)
+                                  .copyWith(
+                                      quantity: p
+                                              .firstWhere((e) =>
+                                                  e.id == _products[index].id)
+                                              .quantity! +
+                                          1);
+                              // prod.copyWith(quantity: prod.quantity! + 1);
+                              cartProducts.removeWhere((e) => e.id == prod.id);
+                              cartProducts.add(prod);
+                            }
+                          });
+                        },
+                        icon: const Icon(
+                          Icons.add,
+                          color: Colors.pink,
+                        )),
+                    title: Text(
+                      documentSnapshot['name'],
+                      style: const TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.left,
+                    ),
+                    subtitle: Text(
+                      "Price: Rs ${documentSnapshot['price']}",
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(fontSize: 13),
+                    ),
+                    children: [
+                      const Divider(),
+                      const Padding(
+                        padding: EdgeInsets.all(18.0),
+                        child: Text(
+                          'Descriptions',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 16),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(18.0),
+                        child: Text('${documentSnapshot['descriptions']}'),
+                      ),
+                    ],
+                  ),
+                );
+
+                Card(
                   margin: const EdgeInsets.only(top: 5.0, left: 5, right: 5),
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),

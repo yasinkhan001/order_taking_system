@@ -2,8 +2,11 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:order_taking_system/Contants/collections.dart';
 import 'package:order_taking_system/Controllers/service_controller.dart';
 import 'package:order_taking_system/Models/data_model.dart';
+import 'package:order_taking_system/Models/user_model.dart';
+import 'package:order_taking_system/Screens/common/app_colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UsersSideOrders extends StatefulWidget {
@@ -17,9 +20,9 @@ class _UsersSideOrders extends State<UsersSideOrders> {
   String? id;
   Future<String?> myData() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    String? aa = preferences.getString('table');
+    String? aa = preferences.getString('user');
     Map<String, dynamic> map = json.decode(aa!);
-    OrderTable waiter = OrderTable.fromMap(map);
+    AppUser waiter = AppUser.fromMap(map);
     print(waiter.id);
     id = waiter.id;
     return waiter.id;
@@ -35,11 +38,16 @@ class _UsersSideOrders extends State<UsersSideOrders> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('User Orders'),
+        backgroundColor: Color(0xF8FFC313),
+        iconTheme: IconThemeData(color: Color(0xdc080c52)),
+        title: const Text(
+          'User Orders',
+          style: appThemeColor,
+        ),
       ),
       body: StreamBuilder(
           stream: FirebaseFirestore.instance
-              .collection('orders')
+              .collection(AppUtils.ORDERS)
               // .orderBy('created_at', descending: true)
               // .where('orderTable.id', isEqualTo: id)
               .snapshots(),
@@ -48,51 +56,47 @@ class _UsersSideOrders extends State<UsersSideOrders> {
               var bb = snap.data!.docs;
               List<UserOrder> orders = bb
                   .map((a) => UserOrder.fromJson(jsonEncode(a.data())))
-                  .where((e) => e.orderTable?.id == id)
+                  .where((e) => e.user?.id == id)
                   .toList();
               orders.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
               return ListView.builder(
                   itemCount: orders.length,
                   itemBuilder: (context, index) {
                     return Card(
-                      color: Colors.blueGrey,
+                      color: appBarColor,
                       child: Column(
                         children: [
                           ColoredBox(
-                            color: Colors.amber,
+                            color: appBarIconColor,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Padding(
+                              children: const [
+                                Padding(
                                   padding: EdgeInsets.all(4.0),
-                                  child: Text('Image'),
+                                  child: Text('Image',
+                                      style: TextStyle(color: Colors.white)),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.all(4.0),
-                                  child: Text(
-                                    'Product',
-                                    style:
-                                        Theme.of(context).textTheme.labelLarge,
-                                  ),
+                                  padding: EdgeInsets.all(4.0),
+                                  child: Text('Product',
+                                      style: TextStyle(color: Colors.white)),
                                 ),
-                                const Spacer(),
+                                Spacer(),
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 8.0),
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 8.0),
                                   child: Text(
                                     'Price',
-                                    style:
-                                        Theme.of(context).textTheme.labelLarge,
+                                    style: TextStyle(color: Colors.white),
                                   ),
                                 ),
-                                const Spacer(),
+                                Spacer(),
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 24.0),
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 24.0),
                                   child: Text(
                                     'Quantity',
-                                    style:
-                                        Theme.of(context).textTheme.labelLarge,
+                                    style: TextStyle(color: Colors.white),
                                   ),
                                 ),
                               ],
@@ -243,23 +247,28 @@ class _UsersSideOrders extends State<UsersSideOrders> {
                               ),
                             ],
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(4.0),
-                            child: Text(
-                              'Descriptions:',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .labelMedium!
-                                  .copyWith(fontWeight: FontWeight.w700),
-                            ),
+                          Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: Text(
+                                  'Dine in | Parcel:',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .labelMedium!
+                                      .copyWith(fontWeight: FontWeight.w700),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: Text(
+                                  orders[index].descriptions ?? ' ',
+                                  style: Theme.of(context).textTheme.bodySmall,
+                                ),
+                              ),
+                            ],
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(4.0),
-                            child: Text(
-                              orders[index].descriptions ?? ' ',
-                              style: Theme.of(context).textTheme.bodySmall,
-                            ),
-                          ),
+
                           const SizedBox(
                             height: 30,
                           ),

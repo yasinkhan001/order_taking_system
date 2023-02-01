@@ -2,7 +2,10 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:order_taking_system/Contants/collections.dart';
+import 'package:order_taking_system/Models/user_model.dart';
 import 'package:order_taking_system/Screens/admin/completed_orders.dart';
+import 'package:order_taking_system/Screens/common/app_colors.dart';
 import 'package:order_taking_system/auth/register.dart';
 import 'package:order_taking_system/Screens/admin/dawer.dart';
 import 'package:order_taking_system/Screens/admin/inprogress_order.dart';
@@ -146,77 +149,89 @@ class _AdminDashboardState extends State<AdminDashboard> {
           // ),
           endDrawer: const AppDrawer(),
           appBar: AppBar(
-            leading: IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: const Icon(Icons.arrow_back_ios),
+            // leading: IconButton(
+            //   onPressed: () {
+            //     Navigator.pop(context);
+            //   },
+            //   icon: const Icon(Icons.arrow_back_ios),
+            // ),
+            title: const Text(
+              'Waiter',
+              style: appThemeColor,
             ),
-            title: const Text('Waiter'),
+            iconTheme: IconThemeData(color: appBarIconColor),
+            backgroundColor: Color(0xF8FFC313),
           ),
           body: StreamBuilder(
-              stream:
-                  FirebaseFirestore.instance.collection('tables').snapshots(),
+              stream: FirebaseFirestore.instance
+                  .collection(AppUtils.USERS)
+                  .where('isAdmin', isEqualTo: false)
+                  .snapshots(),
               builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (snapshot.hasData) {
                   var bb = snapshot.data!.docs;
-                  List<OrderTable> tables = bb
-                      .map((a) => OrderTable.fromJson(jsonEncode(a.data())))
+                  List<AppUser> tables = bb
+                      .map((a) => AppUser.fromJson(jsonEncode(a.data())))
                       .toList();
                   if (tables.isNotEmpty) {
                     return ListView.separated(
                       itemCount: tables.length,
                       separatorBuilder: (BuildContext con, int ind) =>
                           const Divider(
-                        height: 1,
-                        color: Colors.grey,
-                        thickness: 1,
+                        // height: 1,
+                        // color: Colors.grey,
+                        thickness: 0,
                       ),
 
                       itemBuilder: (context, index) {
                         //   final item = _chairCount[index];
 
-                        return ListTile(
-                          onTap: () async {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => WaiterProfile(
-                                          waiter: tables[index],
-                                        )));
-                            // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            //     content: Container(
-                            //   color: Colors.teal,
-                            //   child: Text('${tables[index].descriptions}'),
-                            // )));
-                          },
-
-                          leading: CircleAvatar(
-                            radius: 35,
-                            backgroundColor: Colors.pink,
-                            backgroundImage: NetworkImage(tables[index].img !=
-                                    null
-                                ? tables[index].img!.contains('http')
-                                    ? tables[index].img!
-                                    : "https://cdn2.iconfinder.com/data/icons/circle-icons-1/64/profle-512.png"
-                                : "https://cdn2.iconfinder.com/data/icons/circle-icons-1/64/profle-512.png"),
-                            // child:Image.network(tables[index].img ??
-                            //     'https://cdn2.iconfinder.com/data/icons/circle-icons-1/64/profle-512.png'),
-                          ),
-                          trailing: IconButton(
-                            onPressed: () {
-                              appDialog(context, tables[index].id);
+                        return Card(
+                          elevation: 5,
+                          margin:
+                              EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                          child: ListTile(
+                            onTap: () async {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => WaiterProfile(
+                                            waiter: tables[index],
+                                          )));
+                              // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              //     content: Container(
+                              //   color: Colors.teal,
+                              //   child: Text('${tables[index].descriptions}'),
+                              // )));
                             },
-                            icon: Icon(Icons.delete),
-                            color: Colors.red,
+
+                            leading: CircleAvatar(
+                              radius: 35,
+                              backgroundColor: Colors.pink,
+                              backgroundImage: NetworkImage(tables[index].img !=
+                                      null
+                                  ? tables[index].img!.contains('http')
+                                      ? tables[index].img!
+                                      : "https://cdn2.iconfinder.com/data/icons/circle-icons-1/64/profle-512.png"
+                                  : "https://cdn2.iconfinder.com/data/icons/circle-icons-1/64/profle-512.png"),
+                              // child:Image.network(tables[index].img ??
+                              //     'https://cdn2.iconfinder.com/data/icons/circle-icons-1/64/profle-512.png'),
+                            ),
+                            trailing: IconButton(
+                              onPressed: () {
+                                appDialog(context, tables[index].id);
+                              },
+                              icon: Icon(Icons.delete),
+                              color: Colors.red,
+                            ),
+
+                            title: Text('${tables[index].name}'),
+                            subtitle: Text('${tables[index].phone}'),
+
+                            // style: new ListTileTheme(
+                            //   selectedColor: Colors.pink,
+                            // ),
                           ),
-
-                          title: Text('${tables[index].descriptions}'),
-                          subtitle: Text('${tables[index].tableChairsCount}'),
-
-                          // style: new ListTileTheme(
-                          //   selectedColor: Colors.pink,
-                          // ),
                         );
                       },
                       // children: [
@@ -255,24 +270,34 @@ class _AdminDashboardState extends State<AdminDashboard> {
         context: context,
         builder: (context) {
           return AlertDialog(
-              title: const Text("Are you sure want to delete?"),
+              backgroundColor: alertDialogueColor,
+              title: const Text(
+                "Are you sure want to delete?",
+                style: TextStyle(color: Colors.white),
+              ),
               actions: [
                 TextButton(
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    child: const Text("Cancel")),
+                    child: const Text(
+                      "Cancel",
+                      style: TextStyle(color: appBarColor),
+                    )),
                 TextButton(
                     onPressed: () {
                       delete(id);
                       Navigator.pop(context);
                     },
-                    child: const Text("Delete")),
+                    child: const Text(
+                      "Delete",
+                      style: TextStyle(color: appBarColor),
+                    )),
               ]);
         });
   }
 
   delete(id) async {
-    await FirebaseFirestore.instance.collection('tables').doc(id).delete();
+    await FirebaseFirestore.instance.collection('users').doc(id).delete();
   }
 }

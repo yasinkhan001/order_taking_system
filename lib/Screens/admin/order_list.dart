@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:order_taking_system/Data/data.dart';
+import 'package:order_taking_system/Screens/common/app_colors.dart';
 
 import '../../Models/data_model.dart' as or;
 
@@ -18,7 +19,9 @@ class _OrderListState extends State<OrderList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Order List'),
+        title: const Text('Order List', style: appThemeColor),
+        iconTheme: IconThemeData(color: appBarIconColor),
+        backgroundColor: Color(0xF8FFC313),
       ),
       body: StreamBuilder(
           stream: FirebaseFirestore.instance

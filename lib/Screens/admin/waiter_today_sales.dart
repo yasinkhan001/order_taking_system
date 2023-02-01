@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:order_taking_system/Models/user_model.dart';
 import 'package:order_taking_system/Screens/admin/completed_orders.dart';
+import 'package:order_taking_system/Screens/common/app_colors.dart';
 import 'package:order_taking_system/auth/register.dart';
 import 'package:order_taking_system/Screens/admin/inprogress_order.dart';
 import 'package:order_taking_system/Screens/admin/order_list.dart';
@@ -23,7 +25,7 @@ class WaiterTodaySales extends StatefulWidget {
 
 class _WaiterTodaySalesState extends State<WaiterTodaySales> {
   String _chairCount = '';
-  OrderTable? order;
+  AppUser? order;
   Table? waiter;
   String _desc = '';
 
@@ -150,67 +152,79 @@ class _WaiterTodaySalesState extends State<WaiterTodaySales> {
               },
               icon: const Icon(Icons.arrow_back_ios),
             ),
-            title: const Text('Waiter Today Sales'),
+            title: const Text(
+              'Waiter Today Sales',
+              style: appThemeColor,
+            ),
+            iconTheme: IconThemeData(color: appBarIconColor),
+            backgroundColor: Color(0xF8FFC313),
           ),
           body: StreamBuilder(
-              stream:
-                  FirebaseFirestore.instance.collection('tables').snapshots(),
+              stream: FirebaseFirestore.instance
+                  .collection('users')
+                  .where('isAdmin', isEqualTo: false)
+                  .snapshots(),
               builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (snapshot.hasData) {
                   var bb = snapshot.data!.docs;
-                  List<OrderTable> tables = bb
-                      .map((a) => OrderTable.fromJson(jsonEncode(a.data())))
+                  List<AppUser> tables = bb
+                      .map((a) => AppUser.fromJson(jsonEncode(a.data())))
                       .toList();
                   return ListView.separated(
                     itemCount: tables.length,
                     separatorBuilder: (BuildContext con, int ind) =>
                         const Divider(
-                      height: 1,
-                      color: Colors.grey,
-                      thickness: 1,
+                      // height: 1,
+                      // color: Colors.grey,
+                      thickness: 0,
                     ),
 
                     itemBuilder: (context, index) {
                       //   final item = _chairCount[index];
 
-                      return ListTile(
-                        onTap: () async {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => WaiterProfile(
-                                        waiter: tables[index],
-                                        isSales: true,
-                                      )));
-                          // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          //     content: Container(
-                          //   color: Colors.teal,
-                          //   child: Text('${tables[index].descriptions}'),
-                          // )));
-                        },
-
-                        leading: CircleAvatar(
-                          radius: 35,
-                          backgroundColor: Colors.pink,
-                          backgroundImage: NetworkImage(tables[index].img ??
-                              "https://cdn2.iconfinder.com/data/icons/circle-icons-1/64/profle-512.png"),
-                          // child:Image.network(tables[index].img ??
-                          //     'https://cdn2.iconfinder.com/data/icons/circle-icons-1/64/profle-512.png'),
-                        ),
-                        trailing: IconButton(
-                          onPressed: () {
-                            appDialog(context, tables[index].id);
+                      return Card(
+                        elevation: 5,
+                        margin:
+                            EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                        child: ListTile(
+                          onTap: () async {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => WaiterProfile(
+                                          waiter: tables[index],
+                                          isSales: true,
+                                        )));
+                            // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            //     content: Container(
+                            //   color: Colors.teal,
+                            //   child: Text('${tables[index].descriptions}'),
+                            // )));
                           },
-                          icon: Icon(Icons.delete),
-                          color: Colors.red,
+
+                          leading: CircleAvatar(
+                            radius: 35,
+                            backgroundColor: Colors.pink,
+                            backgroundImage: NetworkImage(tables[index].img ??
+                                "https://cdn2.iconfinder.com/data/icons/circle-icons-1/64/profle-512.png"),
+                            // child:Image.network(tables[index].img ??
+                            //     'https://cdn2.iconfinder.com/data/icons/circle-icons-1/64/profle-512.png'),
+                          ),
+                          // trailing: IconButton(
+                          //   onPressed: () {
+                          //     appDialog(context, tables[index].id);
+                          //   },
+                          //   icon: Icon(Icons.delete),
+                          //   color: Colors.red,
+                          // ),
+
+                          title: Text('${tables[index].name}'),
+                          subtitle: Text('${tables[index].phone}'),
+
+                          // style: new ListTileTheme(
+                          //   selectedColor: Colors.pink,
+                          // ),
                         ),
-
-                        title: Text('${tables[index].descriptions}'),
-                        subtitle: Text('${tables[index].tableChairsCount}'),
-
-                        // style: new ListTileTheme(
-                        //   selectedColor: Colors.pink,
-                        // ),
                       );
                     },
                     // children: [

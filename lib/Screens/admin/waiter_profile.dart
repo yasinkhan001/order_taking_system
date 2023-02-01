@@ -2,18 +2,15 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:order_taking_system/Screens/admin/pending_orders.dart';
-import 'package:order_taking_system/Screens/admin/recipes.dart';
+import 'package:order_taking_system/Models/user_model.dart';
+import 'package:order_taking_system/Screens/common/app_colors.dart';
 
 import '../../Models/data_model.dart';
-import 'completed_orders.dart';
-import '../../auth/register.dart';
-import 'inprogress_order.dart';
 
 class WaiterProfile extends StatefulWidget {
   const WaiterProfile({required this.waiter, this.isSales = false, Key? key})
       : super(key: key);
-  final OrderTable waiter;
+  final AppUser waiter;
   final bool isSales;
   @override
   State<WaiterProfile> createState() => _WaiterProfileState();
@@ -30,7 +27,12 @@ class _WaiterProfileState extends State<WaiterProfile> {
             },
             icon: const Icon(Icons.arrow_back_ios),
           ),
-          title: const Text('Waiter Profile'),
+          title: Text(
+            'Waiter ${widget.isSales ? 'Sales' : 'Profile'}',
+            style: appThemeColor,
+          ),
+          iconTheme: const IconThemeData(color: appBarIconColor),
+          backgroundColor: const Color(0xF8FFC313),
         ),
         body: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -57,7 +59,18 @@ class _WaiterProfileState extends State<WaiterProfile> {
                                 fontWeight: FontWeight.w600, fontSize: 18),
                           ),
                           trailing: Text(
-                            widget.waiter.descriptions ?? ' no Name',
+                            widget.waiter.name ?? ' no Name',
+                          ),
+                        )),
+                        Card(
+                            child: ListTile(
+                          title: const Text(
+                            "Email",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600, fontSize: 18),
+                          ),
+                          trailing: Text(
+                            widget.waiter.email ?? ' no Email',
                           ),
                         )),
                         Card(
@@ -79,7 +92,7 @@ class _WaiterProfileState extends State<WaiterProfile> {
                                 fontWeight: FontWeight.w600, fontSize: 18),
                           ),
                           trailing: Text(
-                            widget.waiter.tableChairsCount.toString(),
+                            widget.waiter.phone.toString(),
                           ),
                         )),
                         Card(
@@ -114,7 +127,7 @@ class _WaiterProfileState extends State<WaiterProfile> {
                                   .where((order) =>
                                       order.createdAt!.isAfter(DateTime.now()
                                           .subtract(const Duration(days: 1))) &&
-                                      order.orderTable!.id == widget.waiter.id)
+                                      order.user!.id == widget.waiter.id)
                                   .toList();
                               var totalSales = orders
                                   .map((e) => e.products
@@ -123,32 +136,89 @@ class _WaiterProfileState extends State<WaiterProfile> {
                                       .fold<double>(0.0, (a, b) => a + b))
                                   .fold<double>(
                                       0.0, (double? a, double? b) => a! + b!);
+                              var totalItems = orders.length;
 
                               return Center(
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    ListTile(
-                                      title: const Text(
-                                        "Name",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 18),
-                                      ),
-                                      trailing: Text(
-                                        widget.waiter.descriptions ??
-                                            ' no Name',
+                                    Padding(
+                                      padding: const EdgeInsets.all(15.0),
+                                      child: CircleAvatar(
+                                          radius: 55,
+                                          backgroundColor: Colors.pink,
+                                          foregroundImage: NetworkImage(widget
+                                                  .waiter.img ??
+                                              'https://cdn2.iconfinder.com/data/icons/circle-icons-1/64/profle-512.png')),
+                                    ),
+                                    Container(
+                                      color: appBarColor,
+                                      child: ListTile(
+                                        title: const Text(
+                                          "Name",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 18),
+                                        ),
+                                        trailing: Text(
+                                          widget.waiter.name ?? ' no Name',
+                                          style: const TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w600),
+                                        ),
                                       ),
                                     ),
-                                    Text(
-                                      'Today Sales:',
-                                      style:
-                                          Theme.of(context).textTheme.headline3,
+                                    SizedBox(
+                                      height: 30,
                                     ),
-                                    Text(
-                                      '$totalSales',
-                                      style:
-                                          Theme.of(context).textTheme.headline5,
+                                    Container(
+                                      margin: const EdgeInsets.symmetric(
+                                          horizontal: 12),
+                                      padding: const EdgeInsets.only(top: 12),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            'Today Sales:',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .headline5,
+                                          ),
+                                          Text(
+                                            '$totalSales',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .headline5,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Container(
+                                      margin: const EdgeInsets.symmetric(
+                                          horizontal: 12),
+                                      padding: const EdgeInsets.only(top: 12),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            'Total Orders:',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .headline5,
+                                          ),
+                                          Text(
+                                            '$totalItems',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .headline5,
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ],
                                 ),

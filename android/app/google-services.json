@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "998668501053",
-    "project_id": "order-tracking-system-b3db2",
-    "storage_bucket": "order-tracking-system-b3db2.appspot.com"
+    "project_number": "297227309611",
+    "project_id": "oder-59dc1",
+    "storage_bucket": "oder-59dc1.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:998668501053:android:ff2a79154e8e718e4f2a54",
+        "mobilesdk_app_id": "1:297227309611:android:271b3c58f9e80990a7906e",
         "android_client_info": {
-          "package_name": "com.android.application"
+          "package_name": "com.example.order_taking_system"
         }
       },
       "oauth_client": [
         {
-          "client_id": "998668501053-uubdsr7jnsf511tgt63vqi3oiulovado.apps.googleusercontent.com",
+          "client_id": "297227309611-ck5mluqdk2c91co0cv29o218o8uc98o7.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBbBGDeNHSc6AxkCMe3lQP4uVV0fjcqCNA"
+          "current_key": "AIzaSyCdP_kYUh1rfN-Gbp65YWRQM4TbtDS6Q3Y"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "998668501053-uubdsr7jnsf511tgt63vqi3oiulovado.apps.googleusercontent.com",
+              "client_id": "297227309611-ck5mluqdk2c91co0cv29o218o8uc98o7.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

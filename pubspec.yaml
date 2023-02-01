@@ -43,7 +43,8 @@ dependencies:
   firebase_auth: ^4.2.5
   animated_text_kit: ^4.2.2
   animate_do: ^2.1.0
-
+  font_awesome_flutter: ^10.3.0
+  email_validator: ^2.1.17
 
 dev_dependencies:
   flutter_test:

@@ -8,6 +8,8 @@ class AppUser {
   final String? phone;
   final String? gender;
   final String? img;
+  final bool? isAdmin;
+
   final String? description;
   final DateTime? updatedAt;
   final DateTime? createdAt;
@@ -20,6 +22,7 @@ class AppUser {
       this.description,
       this.password,
       this.phone,
+      this.isAdmin,
       this.createdAt,
       this.updatedAt});
 
@@ -31,6 +34,7 @@ class AppUser {
     String? phone,
     String? gender,
     String? img,
+    bool? isAdmin,
     String? description,
     DateTime? updatedAt,
     DateTime? createdAt,
@@ -43,6 +47,7 @@ class AppUser {
           phone: phone ?? this.phone,
           password: password ?? this.password,
           email: email ?? this.email,
+          isAdmin: isAdmin ?? this.isAdmin,
           updatedAt: updatedAt ?? this.updatedAt,
           createdAt: createdAt ?? this.createdAt,
           gender: gender ?? this.gender);
@@ -54,6 +59,7 @@ class AppUser {
         id: json["id"],
         name: json['name'],
         email: json['email'],
+        isAdmin: json['isAdmin'],
         gender: json['gender'],
         description: json['description'],
         password: json['password'],
@@ -75,6 +81,7 @@ class AppUser {
         "description": description,
         "password": password,
         "img": img,
+        "isAdmin": isAdmin,
         "phone": phone,
         "created_at": createdAt == null ? null : createdAt!.toIso8601String(),
         "updated_at": updatedAt == null ? null : updatedAt!.toIso8601String(),

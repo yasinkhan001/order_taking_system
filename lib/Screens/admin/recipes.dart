@@ -2,7 +2,8 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:order_taking_system/Screens/admin/add_recipes.dart';
+import 'package:order_taking_system/Screens/admin/add/add_recipes.dart';
+import 'package:order_taking_system/Screens/common/app_colors.dart';
 import 'package:path/path.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import '../../Models/data_model.dart';
@@ -38,7 +39,12 @@ class _RecipesState extends State<Recipes> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Recipes"),
+          title: const Text(
+            "Recipes",
+            style: appThemeColor,
+          ),
+          iconTheme: IconThemeData(color: appBarIconColor),
+          backgroundColor: Color(0xF8FFC313),
         ),
         body: StreamBuilder(
           stream: _products.snapshots(),
@@ -145,9 +151,13 @@ class _RecipesState extends State<Recipes> {
           },
         ),
         floatingActionButton: FloatingActionButton(
+          backgroundColor: appBarColor,
           onPressed: () => Navigator.push(context,
               MaterialPageRoute(builder: (context) => const AddRecipes())),
-          child: const Icon(Icons.add),
+          child: const Icon(
+            Icons.add,
+            color: appBarIconColor,
+          ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat);
   }
@@ -158,19 +168,29 @@ appDialog(BuildContext context, id) {
       context: context,
       builder: (context) {
         return AlertDialog(
-            title: const Text("Are you sure want to delete?"),
+            backgroundColor: alertDialogueColor,
+            title: const Text(
+              "Are you sure want to delete?",
+              style: TextStyle(color: Colors.white),
+            ),
             actions: [
               TextButton(
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: const Text("Cancel")),
+                  child: const Text(
+                    "Cancel",
+                    style: TextStyle(color: appBarColor),
+                  )),
               TextButton(
                   onPressed: () {
                     delete(id);
                     Navigator.pop(context);
                   },
-                  child: const Text("Delete")),
+                  child: const Text(
+                    "Delete",
+                    style: TextStyle(color: appBarColor),
+                  )),
             ]);
       });
 }
