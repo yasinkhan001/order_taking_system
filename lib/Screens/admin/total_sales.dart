@@ -288,14 +288,14 @@ class TotalSales extends StatelessWidget {
                           borderRadius: BorderRadius.circular(10),
                           color: appBarColor,
                         ),
-                        margin: EdgeInsets.only(top: 120),
+                        margin: const EdgeInsets.only(top: 120),
                         // margin: EdgeInsets.symmetric(horizontal: 100),
                         // padding: EdgeInsets.only(top: 12),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             Container(
-                              margin: EdgeInsets.only(top: 50),
+                              margin: const EdgeInsets.only(top: 50),
                               child: Text(
                                 'Last 30 Days Sales',
                                 style: Theme.of(context).textTheme.headline5,
@@ -307,21 +307,21 @@ class TotalSales extends StatelessWidget {
                                 style: Theme.of(context).textTheme.headline5,
                               ),
                             ),
-                            Divider(
+                            const Divider(
                               height: 1,
                               color: appBarIconColor,
                               indent: 40,
                               endIndent: 40,
                             ),
                             Container(
-                              margin: EdgeInsets.only(top: 20),
+                              margin: const EdgeInsets.only(top: 20),
                               child: Text(
                                 'Total Orders',
                                 style: Theme.of(context).textTheme.headline5,
                               ),
                             ),
                             Container(
-                              margin: EdgeInsets.only(top: 0),
+                              margin: const EdgeInsets.only(top: 0),
                               child: Text(
                                 '$totalItems',
                                 style: Theme.of(context).textTheme.headline5,
@@ -330,10 +330,11 @@ class TotalSales extends StatelessWidget {
                             Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
-                                color: Color(0xff11014c),
+                                color: const Color(0xff11014c),
                               ),
-                              margin: EdgeInsets.symmetric(horizontal: 20),
-                              padding: EdgeInsets.symmetric(
+                              margin:
+                                  const EdgeInsets.symmetric(horizontal: 20),
+                              padding: const EdgeInsets.symmetric(
                                   horizontal: 12, vertical: 5),
                               child: Row(
                                 mainAxisAlignment:
@@ -362,7 +363,7 @@ class TotalSales extends StatelessWidget {
                     ),
                     Center(
                       child: Container(
-                        margin: EdgeInsets.only(top: 50),
+                        margin: const EdgeInsets.only(top: 50),
                         height: 100,
                         width: 100,
 
@@ -380,7 +381,7 @@ class TotalSales extends StatelessWidget {
                       ),
                     ),
                   ]),
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
                   // Card(
