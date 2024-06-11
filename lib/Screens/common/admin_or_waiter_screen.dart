@@ -1,8 +1,7 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
-import 'package:order_taking_system/auth/login.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:order_taking_system/auth/login.dart';
 
 class AdminOrWaiter extends StatefulWidget {
   const AdminOrWaiter({Key? key}) : super(key: key);
@@ -131,7 +130,7 @@ class _AdminOrWaiterState extends State<AdminOrWaiter> {
                 margin: const EdgeInsets.only(top: 40),
                 child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                        primary: Color(0xF8FFC313), //background color of button
+                        // primary: Color(0xF8FFC313), //background color of button
                         side: const BorderSide(
                             width: 0,
                             color: Color(0xF8FFC313)), //border width and color

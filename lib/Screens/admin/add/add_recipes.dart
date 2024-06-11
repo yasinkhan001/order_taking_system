@@ -294,7 +294,7 @@ class _AddRecipesState extends State<AddRecipes> {
                           fontSize: 18),
                     ),
                     style: ElevatedButton.styleFrom(
-                      primary: Color(0xF8FFC313),
+                      // primary: Color(0xF8FFC313),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30.0),
                       ),

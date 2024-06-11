@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:order_taking_system/Controllers/service_controller.dart';
-import 'package:order_taking_system/Data/data.dart';
 import 'package:order_taking_system/Screens/common/app_colors.dart';
 
 import '../../Models/data_model.dart' as or;
@@ -140,8 +139,9 @@ class _InprogressOrders extends State<InprogressOrders> {
                                       horizontal: 4.0, vertical: 25),
                                   child: Text(
                                     'Total:',
-                                    style:
-                                        Theme.of(context).textTheme.headline5,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineLarge,
                                   ),
                                 ),
                                 const Spacer(),
@@ -154,8 +154,9 @@ class _InprogressOrders extends State<InprogressOrders> {
                                         .map((e) => e.price! * e.quantity!)
                                         .reduce((a, b) => a + b)
                                         .toString(),
-                                    style:
-                                        Theme.of(context).textTheme.headline5,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineLarge,
                                   ),
                                 ),
                               ],
@@ -279,7 +280,7 @@ class _InprogressOrders extends State<InprogressOrders> {
                                 padding: const EdgeInsets.all(5.0),
                                 child: ElevatedButton(
                                     style: ElevatedButton.styleFrom(
-                                      primary: Color(0xdc080c52),
+                                      // primary: Color(0xdc080c52),
                                       shape: RoundedRectangleBorder(
                                         borderRadius:
                                             BorderRadius.circular(30.0),

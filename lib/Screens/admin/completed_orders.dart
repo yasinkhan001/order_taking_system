@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:order_taking_system/Screens/common/app_colors.dart';
+
 import '../../Models/data_model.dart' as or;
 
 class CompleteOrders extends StatefulWidget {
@@ -148,7 +149,7 @@ class _CompleteOrders extends State<CompleteOrders> {
                                           'Total:',
                                           style: Theme.of(context)
                                               .textTheme
-                                              .headline5,
+                                              .headlineLarge,
                                         ),
                                       ),
                                       const Spacer(),
@@ -164,7 +165,7 @@ class _CompleteOrders extends State<CompleteOrders> {
                                               .toString(),
                                           style: Theme.of(context)
                                               .textTheme
-                                              .headline5,
+                                              .headlineLarge,
                                         ),
                                       ),
                                     ],

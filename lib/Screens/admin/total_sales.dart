@@ -298,13 +298,15 @@ class TotalSales extends StatelessWidget {
                               margin: EdgeInsets.only(top: 50),
                               child: Text(
                                 'Last 30 Days Sales',
-                                style: Theme.of(context).textTheme.headline5,
+                                style:
+                                    Theme.of(context).textTheme.headlineLarge,
                               ),
                             ),
                             Container(
                               child: Text(
                                 'Rs $totalSales/-',
-                                style: Theme.of(context).textTheme.headline5,
+                                style:
+                                    Theme.of(context).textTheme.headlineLarge,
                               ),
                             ),
                             Divider(
@@ -317,14 +319,16 @@ class TotalSales extends StatelessWidget {
                               margin: EdgeInsets.only(top: 20),
                               child: Text(
                                 'Total Orders',
-                                style: Theme.of(context).textTheme.headline5,
+                                style:
+                                    Theme.of(context).textTheme.headlineLarge,
                               ),
                             ),
                             Container(
                               margin: EdgeInsets.only(top: 0),
                               child: Text(
                                 '$totalItems',
-                                style: Theme.of(context).textTheme.headline5,
+                                style:
+                                    Theme.of(context).textTheme.headlineLarge,
                               ),
                             ),
                             Container(

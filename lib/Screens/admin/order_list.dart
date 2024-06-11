@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:order_taking_system/Data/data.dart';
 import 'package:order_taking_system/Screens/common/app_colors.dart';
 
 import '../../Models/data_model.dart' as or;
@@ -135,8 +134,9 @@ class _OrderListState extends State<OrderList> {
                                       horizontal: 4.0, vertical: 25),
                                   child: Text(
                                     'Total:',
-                                    style:
-                                        Theme.of(context).textTheme.headline5,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineLarge,
                                   ),
                                 ),
                                 const Spacer(),
@@ -149,8 +149,9 @@ class _OrderListState extends State<OrderList> {
                                         .map((e) => e.price! * e.quantity!)
                                         .reduce((a, b) => a + b)
                                         .toString(),
-                                    style:
-                                        Theme.of(context).textTheme.headline5,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineLarge,
                                   ),
                                 ),
                               ],

@@ -123,7 +123,7 @@ class _ResultOfOrder extends State<ResultOfOrder> {
                                 horizontal: 4.0, vertical: 25),
                             child: Text(
                               'Total:',
-                              style: Theme.of(context).textTheme.headline5,
+                              style: Theme.of(context).textTheme.headlineLarge,
                             ),
                           ),
                           const Spacer(),
@@ -135,7 +135,7 @@ class _ResultOfOrder extends State<ResultOfOrder> {
                                   .map((e) => e.price! * e.quantity!)
                                   .reduce((a, b) => a + b)
                                   .toString(),
-                              style: Theme.of(context).textTheme.headline5,
+                              style: Theme.of(context).textTheme.headlineLarge,
                             ),
                           ),
                         ],
@@ -220,7 +220,6 @@ class _ResultOfOrder extends State<ResultOfOrder> {
                         orders.descriptions ?? ' ',
                         style: Theme.of(context).textTheme.bodySmall,
                       ),
-
                     ),
                     const SizedBox(
                       height: 30,

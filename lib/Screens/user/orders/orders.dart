@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:order_taking_system/Contants/collections.dart';
-import 'package:order_taking_system/Controllers/service_controller.dart';
 import 'package:order_taking_system/Models/data_model.dart';
 import 'package:order_taking_system/Models/user_model.dart';
 import 'package:order_taking_system/Screens/common/app_colors.dart';
@@ -155,8 +154,9 @@ class _UsersSideOrders extends State<UsersSideOrders> {
                                       horizontal: 4.0, vertical: 25),
                                   child: Text(
                                     'Total:',
-                                    style:
-                                        Theme.of(context).textTheme.headline5,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineLarge,
                                   ),
                                 ),
                                 const Spacer(),
@@ -169,8 +169,9 @@ class _UsersSideOrders extends State<UsersSideOrders> {
                                         .map((e) => e.price! * e.quantity!)
                                         .reduce((a, b) => a + b)
                                         .toString(),
-                                    style:
-                                        Theme.of(context).textTheme.headline5,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineLarge,
                                   ),
                                 ),
                               ],

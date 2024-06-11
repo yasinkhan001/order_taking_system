@@ -1,36 +1,45 @@
 {
   "project_info": {
-    "project_number": "297227309611",
-    "project_id": "oder-59dc1",
-    "storage_bucket": "oder-59dc1.appspot.com"
+    "project_number": "818385786782",
+    "project_id": "vital-valor-402307",
+    "storage_bucket": "vital-valor-402307.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:297227309611:android:271b3c58f9e80990a7906e",
+        "mobilesdk_app_id": "1:818385786782:android:286518b851f44f715de88f",
         "android_client_info": {
           "package_name": "com.example.order_taking_system"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "297227309611-ck5mluqdk2c91co0cv29o218o8uc98o7.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCdP_kYUh1rfN-Gbp65YWRQM4TbtDS6Q3Y"
+          "current_key": "AIzaSyAurSsEmeC-SOm-VIIQNHAJqJmV_qralqc"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "297227309611-ck5mluqdk2c91co0cv29o218o8uc98o7.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:818385786782:android:c3030025d2f7feb85de88f",
+        "android_client_info": {
+          "package_name": "com.example.saloon_booking"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAurSsEmeC-SOm-VIIQNHAJqJmV_qralqc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
         }
       }
     }

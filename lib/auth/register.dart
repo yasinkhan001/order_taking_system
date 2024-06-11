@@ -1,12 +1,11 @@
 import 'dart:io';
 
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:order_taking_system/Controllers/auth_services.dart';
 import 'package:order_taking_system/Models/user_model.dart';
 import 'package:order_taking_system/Screens/common/app_colors.dart';
-import 'package:order_taking_system/Screens/user/items_list_user_side.dart';
-import 'package:email_validator/email_validator.dart';
 
 class Registration extends StatefulWidget {
   const Registration({Key? key}) : super(key: key);
@@ -347,7 +346,7 @@ class _RegistrationState extends State<Registration> {
                                   // color: Colors.blue,
 
                                   style: ElevatedButton.styleFrom(
-                                    primary: Color(0xF8FFC313),
+                                    // primary: Color(0xF8FFC313),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(30.0),
                                     ),
@@ -414,7 +413,6 @@ class _RegistrationState extends State<Registration> {
       // setState(() {
       //   isLoading = false;
       // });
-
     } else {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text(

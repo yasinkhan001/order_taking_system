@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../Data/data.dart';
 import '../../Models/data_model.dart';
 
@@ -189,7 +190,7 @@ class ShowItemsTile extends StatelessWidget {
                             horizontal: 4.0, vertical: 25),
                         child: Text(
                           'Total:',
-                          style: Theme.of(context).textTheme.headline5,
+                          style: Theme.of(context).textTheme.headlineLarge,
                         ),
                       ),
                       const Spacer(),
@@ -201,7 +202,7 @@ class ShowItemsTile extends StatelessWidget {
                               .map((e) => e.price! * e.quantity!)
                               .reduce((a, b) => a + b)
                               .toString(),
-                          style: Theme.of(context).textTheme.headline5,
+                          style: Theme.of(context).textTheme.headlineLarge,
                         ),
                       ),
                     ],

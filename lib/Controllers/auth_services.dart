@@ -3,13 +3,11 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
-import 'dart:typed_data';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:order_taking_system/Contants/collections.dart';
-import 'package:order_taking_system/Contants/widgets.dart';
 import 'package:order_taking_system/Models/data_model.dart';
 import 'package:order_taking_system/Models/user_model.dart';
 import 'package:order_taking_system/Screens/admin/admin_dashboard.dart';
@@ -78,8 +76,8 @@ class AuthServices {
               .copyWith(
                 img: url,
                 isAdmin: false,
-                createdAt: DateTime.now(),
-                updatedAt: DateTime.now(),
+                // createdAt: Timestamp.fromDate(DateTime.now()),
+                // updatedAt: Timestamp.fromDate(DateTime.now()),
               )
               .toMap())
           .then((value) async {
@@ -144,7 +142,10 @@ class AuthServices {
         .then((res) async {
       if (res.docs.isNotEmpty) {
         final SharedPreferences prefs = await SharedPreferences.getInstance();
-        prefs.setString('user', jsonEncode(res.docs[0].data()));
+        prefs.setString(
+            'user',
+            jsonEncode(
+                AppUser.fromMap(res.docs[0].data() as Map<String, dynamic>)));
 
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -152,14 +153,13 @@ class AuthServices {
             backgroundColor: Colors.green,
           ),
         );
-        AppUser user =
-            AppUser.fromMap(jsonDecode(jsonEncode(res.docs[0].data())));
+        AppUser user = AppUser.fromJson(jsonEncode(res.docs[0].data()));
         Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
           builder: (context) {
             if (user.isAdmin!) {
-              return AdminDashboard();
+              return const AdminDashboard();
             } else {
-              return ItemsListUserSide();
+              return const ItemsListUserSide();
             }
           },
         ), (rt) => false);

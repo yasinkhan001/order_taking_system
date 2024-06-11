@@ -1,13 +1,7 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:order_taking_system/Controllers/auth_services.dart';
 import 'package:order_taking_system/Screens/common/app_colors.dart';
 import 'package:order_taking_system/auth/register.dart';
-import 'package:order_taking_system/Screens/user/items_list_user_side.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key, this.isAdmin = false}) : super(key: key);
@@ -157,7 +151,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 height: 50,
                                 child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
-                                    primary: Color(0xF8FFC313),
+                                    // primary: Color(0xF8FFC313),
                                     shape: RoundedRectangleBorder(
                                         //to set border radius to button
                                         borderRadius:

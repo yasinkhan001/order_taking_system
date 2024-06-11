@@ -41,7 +41,7 @@ class ProductTile extends StatelessWidget {
                       padding: const EdgeInsets.all(4.0),
                       child: Text(
                         product.price!.toString(),
-                        style: Theme.of(context).textTheme.headline6,
+                        style: Theme.of(context).textTheme.headlineLarge,
                       ),
                     ),
                     Padding(

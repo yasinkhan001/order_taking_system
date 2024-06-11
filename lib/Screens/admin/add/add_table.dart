@@ -1,13 +1,10 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:order_taking_system/Contants/collections.dart';
 import 'package:order_taking_system/Controllers/auth_services.dart';
 import 'package:order_taking_system/Models/data_model.dart';
-import 'package:order_taking_system/Models/user_model.dart';
 import 'package:order_taking_system/Screens/common/app_colors.dart';
 
 class AddTable extends StatefulWidget {
@@ -79,7 +76,7 @@ class _AddTableState extends State<AddTable> {
                                               ("${index + 1}.").toString(),
                                               style: Theme.of(context)
                                                   .textTheme
-                                                  .bodyText1,
+                                                  .headlineLarge,
                                             ),
                                           ),
                                           Text(
@@ -140,7 +137,7 @@ class _AddTableState extends State<AddTable> {
                               width: 100,
                               child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
-                                  primary: Color(0xF8FFC313),
+                                  // primary: Color(0xF8FFC313),
                                   shape: RoundedRectangleBorder(
                                       //to set border radius to button
                                       borderRadius: BorderRadius.circular(50)),

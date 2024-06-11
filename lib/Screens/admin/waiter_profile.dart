@@ -183,13 +183,13 @@ class _WaiterProfileState extends State<WaiterProfile> {
                                             'Today Sales:',
                                             style: Theme.of(context)
                                                 .textTheme
-                                                .headline5,
+                                                .headlineLarge,
                                           ),
                                           Text(
                                             '$totalSales',
                                             style: Theme.of(context)
                                                 .textTheme
-                                                .headline5,
+                                                .headlineLarge,
                                           ),
                                         ],
                                       ),
@@ -209,13 +209,13 @@ class _WaiterProfileState extends State<WaiterProfile> {
                                             'Total Orders:',
                                             style: Theme.of(context)
                                                 .textTheme
-                                                .headline5,
+                                                .headlineLarge,
                                           ),
                                           Text(
                                             '$totalItems',
                                             style: Theme.of(context)
                                                 .textTheme
-                                                .headline5,
+                                                .headlineLarge,
                                           ),
                                         ],
                                       ),
