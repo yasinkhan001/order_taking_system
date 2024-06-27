@@ -6,6 +6,7 @@ import 'package:order_taking_system/Contants/collections.dart';
 import 'package:order_taking_system/Models/data_model.dart';
 import 'package:order_taking_system/Models/user_model.dart';
 import 'package:order_taking_system/Screens/common/app_colors.dart';
+import 'package:order_taking_system/Screens/common/duration_timer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UsersSideOrders extends StatefulWidget {
@@ -37,8 +38,8 @@ class _UsersSideOrders extends State<UsersSideOrders> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xF8FFC313),
-        iconTheme: IconThemeData(color: Color(0xdc080c52)),
+        backgroundColor: const Color(0xF8FFC313),
+        iconTheme: const IconThemeData(color: Color(0xdc080c52)),
         title: const Text(
           'User Orders',
           style: appThemeColor,
@@ -65,11 +66,11 @@ class _UsersSideOrders extends State<UsersSideOrders> {
                       color: appBarColor,
                       child: Column(
                         children: [
-                          ColoredBox(
+                          const ColoredBox(
                             color: appBarIconColor,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: const [
+                              children: [
                                 Padding(
                                   padding: EdgeInsets.all(4.0),
                                   child: Text('Image',
@@ -177,6 +178,10 @@ class _UsersSideOrders extends State<UsersSideOrders> {
                               ],
                             ),
                           ),
+
+                          const SizedBox(
+                            height: 10,
+                          ),
                           Row(
                             children: [
                               Padding(
@@ -185,7 +190,7 @@ class _UsersSideOrders extends State<UsersSideOrders> {
                                   'Table Name:',
                                   style: Theme.of(context)
                                       .textTheme
-                                      .labelMedium!
+                                      .titleMedium!
                                       .copyWith(fontWeight: FontWeight.w700),
                                 ),
                               ),
@@ -208,7 +213,7 @@ class _UsersSideOrders extends State<UsersSideOrders> {
                                   'Date Time:',
                                   style: Theme.of(context)
                                       .textTheme
-                                      .labelMedium!
+                                      .titleMedium!
                                       .copyWith(fontWeight: FontWeight.w700),
                                 ),
                               ),
@@ -234,18 +239,25 @@ class _UsersSideOrders extends State<UsersSideOrders> {
                                   'Status:',
                                   style: Theme.of(context)
                                       .textTheme
-                                      .labelMedium!
+                                      .titleMedium!
                                       .copyWith(fontWeight: FontWeight.w700),
                                 ),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.all(4.0),
-                                child: Text(
+                              Chip(
+                                label: Text(
                                   orders[index].status ?? 'Null',
                                   style:
                                       Theme.of(context).textTheme.labelMedium,
                                 ),
                               ),
+                              // Padding(
+                              //   padding: const EdgeInsets.all(4.0),
+                              //   child: Text(
+                              //     orders[index].status ?? 'Null',
+                              //     style:
+                              //         Theme.of(context).textTheme.labelMedium,
+                              //   ),
+                              // ),
                             ],
                           ),
                           Row(
@@ -256,7 +268,7 @@ class _UsersSideOrders extends State<UsersSideOrders> {
                                   'Dine in | Parcel:',
                                   style: Theme.of(context)
                                       .textTheme
-                                      .labelMedium!
+                                      .titleMedium!
                                       .copyWith(fontWeight: FontWeight.w700),
                                 ),
                               ),
@@ -271,7 +283,16 @@ class _UsersSideOrders extends State<UsersSideOrders> {
                           ),
 
                           const SizedBox(
-                            height: 30,
+                            height: 5,
+                          ),
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 0.0),
+                            child: DurationTimer(
+                              futureDate: orders[index]
+                                  .createdAt!
+                                  .add(const Duration(minutes: 30)),
+                            ),
                           ),
                           // Row(
                           //   mainAxisAlignment: MainAxisAlignment.end,

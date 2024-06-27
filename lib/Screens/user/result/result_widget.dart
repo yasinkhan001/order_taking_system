@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:order_taking_system/Models/data_model.dart';
+import 'package:order_taking_system/Screens/common/duration_timer.dart';
 
 class ResultOfOrder extends StatefulWidget {
   const ResultOfOrder({required this.id, Key? key}) : super(key: key);
@@ -36,6 +37,8 @@ class _ResultOfOrder extends State<ResultOfOrder> {
                 color: Colors.blueGrey,
                 child: Column(
                   children: [
+                    if(orders.createdAt!.isBefore(DateTime.now()))
+                    DurationTimer(futureDate: orders.createdAt!.add(const Duration(minutes: 30)),),
                     ColoredBox(
                       color: Colors.amber,
                       child: Row(
