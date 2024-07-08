@@ -39,10 +39,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(
                     height: 80,
                   ),
-                  Row(
+                  const Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
+                    children: [
                       CircleAvatar(
                         backgroundImage: AssetImage('assets/mutton.jpg'),
                         radius: 60,
@@ -52,10 +52,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(
                     height: 40,
                   ),
-                  Column(
+                  const Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
+                    children: [
                       Text(
                         "WELCOME",
                         style: TextStyle(

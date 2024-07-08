@@ -110,7 +110,7 @@ class AuthServices {
           MaterialPageRoute(builder: (context) => const ItemsListUserSide()),
           (route) => false);
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text("email or phone number already exist"),
         backgroundColor: Colors.red,
       ));
@@ -131,6 +131,19 @@ class AuthServices {
     });
   }
 
+  Future<void> addCategory({required OrderTable data}) async {
+    CollectionReference tbl =
+        FirebaseFirestore.instance.collection(AppUtils.CATEGORIES);
+    final myData = data.toMap();
+    myData.removeWhere((k, v) => v == null);
+    await tbl.add(myData).then((value) async {
+      await tbl.doc(value.id).update({'id': value.id});
+
+      return value;
+    });
+    ;
+  }
+
   Future<void> login(BuildContext context,
       {required email, required password}) async {
     CollectionReference users =
@@ -145,7 +158,8 @@ class AuthServices {
         prefs.setString(
             'user',
             jsonEncode(
-                AppUser.fromMap(res.docs[0].data() as Map<String, dynamic>)));
+                AppUser.fromMap(res.docs[0].data() as Map<String, dynamic>)
+                    .toJson()));
 
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -153,6 +167,7 @@ class AuthServices {
             backgroundColor: Colors.green,
           ),
         );
+
         AppUser user = AppUser.fromJson(jsonEncode(res.docs[0].data()));
         Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
           builder: (context) {

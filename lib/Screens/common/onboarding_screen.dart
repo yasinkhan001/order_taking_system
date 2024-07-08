@@ -1,8 +1,8 @@
 import 'dart:convert';
 
+import 'package:animate_do/animate_do.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
-import 'package:animate_do/animate_do.dart';
 import 'package:order_taking_system/Models/user_model.dart';
 import 'package:order_taking_system/Screens/admin/admin_dashboard.dart';
 import 'package:order_taking_system/Screens/common/admin_or_waiter_screen.dart';
@@ -37,8 +37,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
     if (preferences.containsKey('user')) {
       String? tbl = preferences.getString('user');
-      Map<String, dynamic> mp = jsonDecode(tbl!);
-      AppUser appUser = AppUser.fromMap(mp);
+      final mp = jsonDecode(tbl!);
+      print(mp);
+      AppUser appUser = AppUser.fromJson(mp);
+
       if (appUser.isAdmin!) {
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => const AdminDashboard()));

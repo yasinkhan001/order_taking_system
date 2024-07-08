@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:order_taking_system/Controllers/auth_services.dart';
+import 'package:order_taking_system/Screens/admin/add/add_categories.dart';
 import 'package:order_taking_system/Screens/admin/add/add_table.dart';
 import 'package:order_taking_system/Screens/admin/completed_orders.dart';
-import 'package:order_taking_system/Screens/common/app_colors.dart';
-import 'package:order_taking_system/auth/register.dart';
 import 'package:order_taking_system/Screens/admin/inprogress_order.dart';
 import 'package:order_taking_system/Screens/admin/pending_orders.dart';
 import 'package:order_taking_system/Screens/admin/recipes.dart';
 import 'package:order_taking_system/Screens/admin/total_sales.dart';
 import 'package:order_taking_system/Screens/admin/waiter_today_sales.dart';
-import 'package:order_taking_system/auth/login.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({Key? key}) : super(key: key);
@@ -80,6 +78,16 @@ class AppDrawer extends StatelessWidget {
               onTap: () {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => const AddTable()));
+              },
+            )),
+            Card(
+                child: ListTile(
+              title: const Text("Add Category"),
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const AddCategory()));
               },
             )),
             // Card(

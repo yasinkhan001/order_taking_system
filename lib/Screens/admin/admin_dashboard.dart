@@ -4,16 +4,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:order_taking_system/Contants/collections.dart';
 import 'package:order_taking_system/Models/user_model.dart';
-import 'package:order_taking_system/Screens/admin/completed_orders.dart';
-import 'package:order_taking_system/Screens/common/app_colors.dart';
-import 'package:order_taking_system/auth/register.dart';
 import 'package:order_taking_system/Screens/admin/dawer.dart';
-import 'package:order_taking_system/Screens/admin/inprogress_order.dart';
-import 'package:order_taking_system/Screens/admin/order_list.dart';
-import 'package:order_taking_system/Screens/admin/pending_orders.dart';
-import 'package:order_taking_system/Screens/admin/recipes.dart';
-import 'package:order_taking_system/Screens/admin/total_sales.dart';
 import 'package:order_taking_system/Screens/admin/waiter_profile.dart';
+import 'package:order_taking_system/Screens/common/app_colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../Models/data_model.dart';
@@ -188,8 +181,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
 
                         return Card(
                           elevation: 5,
-                          margin:
-                              EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: 12, vertical: 4),
                           child: ListTile(
                             onTap: () async {
                               Navigator.push(

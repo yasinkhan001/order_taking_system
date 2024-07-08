@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:order_taking_system/Contants/collections.dart';
 import 'package:order_taking_system/Controllers/service_controller.dart';
 import 'package:order_taking_system/Models/data_model.dart';
 import 'package:order_taking_system/Screens/common/app_colors.dart';
@@ -29,18 +30,32 @@ class _AddRecipesState extends State<AddRecipes> {
   final TextEditingController _sold = TextEditingController();
   final TextEditingController _left = TextEditingController();
   // final TextEditingController _category = TextEditingController();
-  List<String> _category = [
-    'Fast Food',
-    'Karhahi',
-    'Appetizer',
-    'Juice',
-  ]; // Option 2
+  List<String> _category = ['loading...']; // Option 2
   String? _selectedCategory;
 
   final TextEditingController _timestampcreated = TextEditingController();
   final TextEditingController _timestampupdated = TextEditingController();
   XFile? file;
   Uint8List? mem;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _fetchCategories();
+  }
+
+  _fetchCategories() async {
+    await FirebaseFirestore.instance
+        .collection(AppUtils.CATEGORIES)
+        .orderBy('descriptions', descending: false)
+        .get()
+        .then((a) {
+      _category =
+          a.docs.map((e) => e.data()["descriptions"] as String).toList();
+      setState(() {});
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,12 +64,12 @@ class _AddRecipesState extends State<AddRecipes> {
           'Add recipes',
           style: appThemeColor,
         ),
-        iconTheme: IconThemeData(color: appBarIconColor),
-        backgroundColor: Color(0xF8FFC313),
+        iconTheme: const IconThemeData(color: appBarIconColor),
+        backgroundColor: const Color(0xF8FFC313),
       ),
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.all(10),
+          padding: const EdgeInsets.all(10),
           color: appBarIconColor,
           child: Padding(
             padding: EdgeInsets.only(
@@ -158,7 +173,7 @@ class _AddRecipesState extends State<AddRecipes> {
                       hintText: 'Name',
                       hintStyle: TextStyle(color: Colors.white)),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 // TextField(
@@ -204,7 +219,7 @@ class _AddRecipesState extends State<AddRecipes> {
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(40),
-                      color: Color(0xF8FFC313),
+                      color: const Color(0xF8FFC313),
                       border: Border.all(color: Colors.black54)),
                   child: DropdownButton(
                     hint: const Text(
@@ -215,7 +230,7 @@ class _AddRecipesState extends State<AddRecipes> {
 
                     items: _category.map((item) {
                       return DropdownMenuItem<String>(
-                          child: new Text(item), value: item);
+                          value: item, child: new Text(item));
                     }).toList(),
                     onChanged: (newValue) {
                       setState(() {
@@ -224,7 +239,7 @@ class _AddRecipesState extends State<AddRecipes> {
                     },
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 TextField(
@@ -252,7 +267,7 @@ class _AddRecipesState extends State<AddRecipes> {
                       hintText: 'Price',
                       hintStyle: TextStyle(color: Colors.white)),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 TextField(
@@ -286,13 +301,6 @@ class _AddRecipesState extends State<AddRecipes> {
                   width: 150,
                   height: 50,
                   child: ElevatedButton(
-                    child: const Text(
-                      'Add Recipe',
-                      style: TextStyle(
-                          color: appBarIconColor,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18),
-                    ),
                     style: ElevatedButton.styleFrom(
                       // primary: Color(0xF8FFC313),
                       shape: RoundedRectangleBorder(
@@ -349,6 +357,13 @@ class _AddRecipesState extends State<AddRecipes> {
                         Navigator.of(context).pop();
                       }
                     },
+                    child: const Text(
+                      'Add Recipe',
+                      style: TextStyle(
+                          color: appBarIconColor,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18),
+                    ),
                   ),
                 )
               ],

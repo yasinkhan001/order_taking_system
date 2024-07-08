@@ -7,14 +7,14 @@ import 'package:order_taking_system/Controllers/auth_services.dart';
 import 'package:order_taking_system/Models/data_model.dart';
 import 'package:order_taking_system/Screens/common/app_colors.dart';
 
-class AddTable extends StatefulWidget {
-  const AddTable({Key? key}) : super(key: key);
+class AddCategory extends StatefulWidget {
+  const AddCategory({Key? key}) : super(key: key);
 
   @override
-  State<AddTable> createState() => _AddTableState();
+  State<AddCategory> createState() => _AddCategoryState();
 }
 
-class _AddTableState extends State<AddTable> {
+class _AddCategoryState extends State<AddCategory> {
   final TextEditingController name = TextEditingController();
 
   bool isLoading = false;
@@ -25,7 +25,7 @@ class _AddTableState extends State<AddTable> {
     return Scaffold(
         appBar: AppBar(
           title: const Text(
-            "Add Table",
+            "Add Categories",
             style: appThemeColor,
           ),
           iconTheme: const IconThemeData(color: appBarIconColor),
@@ -43,7 +43,7 @@ class _AddTableState extends State<AddTable> {
                       width: MediaQuery.of(context).size.width,
                       child: StreamBuilder<QuerySnapshot>(
                         stream: FirebaseFirestore.instance
-                            .collection(AppUtils.TABLES)
+                            .collection(AppUtils.CATEGORIES)
                             .orderBy('descriptions', descending: false)
                             .snapshots(),
                         builder: (context, AsyncSnapshot<QuerySnapshot> snap) {
@@ -89,7 +89,8 @@ class _AddTableState extends State<AddTable> {
                                           IconButton(
                                               onPressed: () {
                                                 FirebaseFirestore.instance
-                                                    .collection(AppUtils.TABLES)
+                                                    .collection(
+                                                        AppUtils.CATEGORIES)
                                                     .doc(tables[index].id)
                                                     .delete();
                                               },
@@ -135,9 +136,9 @@ class _AddTableState extends State<AddTable> {
                                 Radius.circular(40),
                               ),
                               borderSide: BorderSide(color: appBarIconColor)),
-                          labelText: 'Table',
+                          labelText: 'Category',
                           labelStyle: TextStyle(color: appBarIconColor),
-                          hintText: 'Add Table',
+                          hintText: 'Add Category',
                           hintStyle: TextStyle(color: appBarIconColor),
                         ),
                       ),
@@ -201,11 +202,9 @@ class _AddTableState extends State<AddTable> {
     });
     OrderTable orderTable = OrderTable(
       descriptions: name.text,
-      tableChairsCount: 0,
-      status: 'Pending',
     );
 
-    await AuthServices().addTable(data: orderTable);
+    await AuthServices().addCategory(data: orderTable);
 
     setState(() {
       isLoading = false;

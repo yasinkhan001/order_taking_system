@@ -5,4 +5,5 @@ class AppUtils {
   static const ORDERS = 'orders';
   static const PRODUCTS = 'products';
   static const TABLES = 'tables';
+  static const CATEGORIES = 'categories';
 }
